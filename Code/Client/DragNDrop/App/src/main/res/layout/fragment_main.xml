@@ -26,34 +26,4 @@
         android:focusableInTouchMode="false"
         android:src="@drawable/ic_room" />
 
-    <ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/dragImageOne"
-    android:layout_below="@+id/section_label"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true"
-    android:layout_marginTop="86dp"
-    android:focusableInTouchMode="false"
-    android:src="@drawable/ic_lightbulb" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dragImageTwo"
-        android:layout_below="@+id/section_label"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="30dp"
-        android:focusableInTouchMode="false"
-        android:src="@drawable/ic_lightbulb" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dragImageThree"
-        android:layout_below="@+id/section_label"
-        android:layout_marginTop="200dp"
-        android:layout_marginLeft="130dp"
-        android:focusableInTouchMode="false"
-        android:src="@drawable/ic_lightbulb" />
 </RelativeLayout>

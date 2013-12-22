@@ -35,11 +35,11 @@ public class GraphicUnit {
 
     public ImageView getView(Context context) {
         if(view == null) {
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources()/*Resources.getSystem()*/, R.drawable.ic_lightbulb);
-            view = new GraphicUnitWidget(context, bitmap);
+            view = new GraphicUnitWidget(context, this);
             view.setTop(relativeTop);
             view.setLeft(relativeLeft);
             view.setTag(UUID.randomUUID());
+            view.setSelected(this.isSelected);
         }
         return view;
     }

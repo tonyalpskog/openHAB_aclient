@@ -6,7 +6,9 @@ package com.zenit.dragndrop;
 public enum UnitType {
     SWITCH(1),
     DIMMER(2),
-    ROOM_HEATER(3);
+    ROOM_HEATER(3),
+    VENT(4),
+    SOCKET(5);
 
     public final int Value;
 
