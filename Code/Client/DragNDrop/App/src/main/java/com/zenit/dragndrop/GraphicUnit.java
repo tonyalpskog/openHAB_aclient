@@ -17,8 +17,8 @@ public class GraphicUnit {
     UnitType type;
     int relativeTop = 150;//TODO - Remove default values.
     int relativeLeft = 150;
-    GraphicUnitWidget view;
-    boolean isSelected;
+    private GraphicUnitWidget view;
+    private boolean isSelected;
 
     public GraphicUnit(UnitType type) {
         this(type, 150, 150);
@@ -43,4 +43,15 @@ public class GraphicUnit {
         }
         return view;
     }
-}
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+        if(view != null) {
+            view.setSelected(isSelected);
+            view.drawSelection(isSelected);
+        }
+    }}

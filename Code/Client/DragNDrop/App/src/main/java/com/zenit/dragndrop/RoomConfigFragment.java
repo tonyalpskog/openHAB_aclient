@@ -152,8 +152,8 @@ public class RoomConfigFragment extends Fragment {
     }
 
     private void setSelected(GraphicUnit gu, boolean selected) {
-        if(gu != null && gu.isSelected != selected)
-            gu.getView(this.getActivity().getApplicationContext()).callOnClick();//TODO - Remove call to onClick.
+        if(gu != null && gu.isSelected() != selected)
+            gu.setSelected(selected);
     }
 }
 

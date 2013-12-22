@@ -60,6 +60,7 @@ public class GraphicUnitWidget extends ImageView implements View.OnClickListener
 ////        marginParams.setLayoutDirection(new Layout.Directions(Layoutdi));
 //        setLayoutParams(params); //causes layout update
         setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        setSelected(gUnit.isSelected());
         setOnLongClickListener(this);
         setOnClickListener(this);
     }
@@ -79,9 +80,12 @@ public class GraphicUnitWidget extends ImageView implements View.OnClickListener
     @Override
     public void onClick(View v) {
         Log.i("G-Click", "View status BEFORE = " + (v.isSelected() ? "Selected" : "Not selected"));
+        gUnit.setSelected(!gUnit.isSelected());
+        Log.i("G-Click", "View status AFTER = " + (v.isSelected()? "Selected" : "Not selected"));
+    }
 
-        if(!v.isSelected()) {
-            v.setSelected(true);
+    public void drawSelection(boolean selected) {
+        if(selected) {
             Bitmap bitmap = originalBitmap.copy(Bitmap.Config.ARGB_8888, true);
 
             Rect bounds = getDrawable().getBounds();
@@ -101,13 +105,11 @@ public class GraphicUnitWidget extends ImageView implements View.OnClickListener
             canvas.drawCircle(canvas.getHeight()/2, canvas.getWidth()/2, (float) Math.floor(bitmapHeight/2) - Math.round(paint.getStrokeWidth()/2), paint);
             setImageBitmap(bitmap);
         } else {
-            setSelected(false);
             setImageBitmap(originalBitmap);
         }
-        Log.i("G-Click", "View status AFTER = " + (v.isSelected()? "Selected" : "Not selected"));
     }
 
-//    @Override
+    //    @Override
 //    public boolean onDrag(View v, DragEvent event) {
 //        int dragEvent = event.getAction();
 //
