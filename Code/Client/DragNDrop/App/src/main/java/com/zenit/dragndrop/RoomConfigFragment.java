@@ -67,6 +67,7 @@ public class RoomConfigFragment extends Fragment {
         addNewUnitToRoom(new GraphicUnit(UnitType.SWITCH, 70, 90));
 
         room.setOnDragListener(dropListener);
+        room.setOnTouchListener(new TouchListener());
 
         textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
 
