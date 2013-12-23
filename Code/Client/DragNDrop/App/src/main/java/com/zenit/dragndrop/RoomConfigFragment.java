@@ -4,8 +4,11 @@ package com.zenit.dragndrop;
  * Created by Tony Alpskog on 2013-12-22.
  */
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -37,6 +40,9 @@ public class RoomConfigFragment extends Fragment {
     private boolean doSelectAll = true;
     private HashMap<UUID, GraphicUnit> unitHash;
     private View fragmentView;
+    private ImageView roomView;
+    private float lastRoomX, lastRoomY;
+    private int lastRoomWidth, lastRoomHeight;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -51,29 +57,101 @@ public class RoomConfigFragment extends Fragment {
     }
 
     public RoomConfigFragment() {
+        Log.d("LifeCycle", "RoomConfigFragment(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ") <constructor>");
+    }
+
+    @Override
+    public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(activity, attrs, savedInstanceState);
+        Log.d("LifeCycle", "RoomConfigFragment.onInflate(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        Log.d("LifeCycle", "RoomConfigFragment.onInflate(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        unitHash = new HashMap<UUID, GraphicUnit>();
+        Log.d("LifeCycle", "RoomConfigFragment.onCreateView(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        unitHash = ((MainActivity) getActivity()).roomUnitList.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1);
+        if(unitHash == null)
+            unitHash = new HashMap<UUID, GraphicUnit>();
 
         fragmentView = inflater.inflate(R.layout.fragment_main, container, false);
         TextView textView = (TextView) fragmentView.findViewById(R.id.section_label);
-        ImageView room = (ImageView) fragmentView.findViewById(R.id.dropImage);
+        roomView = (ImageView) fragmentView.findViewById(R.id.dropImage);
 
-        addNewUnitToRoom(new GraphicUnit(UnitType.SWITCH, 60, 30));
-        addNewUnitToRoom(new GraphicUnit(UnitType.VENT, 200, 130));
-        addNewUnitToRoom(new GraphicUnit(UnitType.SWITCH, 70, 90));
+//        addNewUnitToRoom(new GraphicUnit(UnitType.SWITCH, 60, 30));
+//        addNewUnitToRoom(new GraphicUnit(UnitType.VENT, 200, 130));
+//        addNewUnitToRoom(new GraphicUnit(UnitType.SWITCH, 70, 90));
 
-        room.setOnDragListener(dropListener);
-        room.setOnTouchListener(new TouchListener());
+        roomView.setOnDragListener(dropListener);
+        roomView.setOnTouchListener(new TouchListener());
 
         textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
 
         setHasOptionsMenu(true);
 
         return fragmentView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("LifeCycle", "RoomConfigFragment.onStart(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        Iterator unitIterator = unitHash.values().iterator();
+        GraphicUnit graphicUnit;
+        while (unitIterator.hasNext()) {
+            graphicUnit = (GraphicUnit) unitIterator.next();
+            Log.d("UnitPos", "onStart REL: " + graphicUnit.roomRelativeX + "/" + graphicUnit.roomRelativeY + "   Room: " + roomView.getX() + "/" + roomView.getY());
+            graphicUnit.resetView();
+            Log.d("UnitPos", "onStart REL: " + graphicUnit.roomRelativeX + "/" + graphicUnit.roomRelativeY + "   Room: " + roomView.getX() + "/" + roomView.getY());
+            drawUnitInRoom(graphicUnit);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("LifeCycle", "RoomConfigFragment.onResume(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("LifeCycle", "RoomConfigFragment.onPause(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("LifeCycle", "RoomConfigFragment.onStop(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("LifeCycle", "RoomConfigFragment.onDestroyView(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        //TODO - Add this as Bundle
+        lastRoomX = roomView.getX();
+        lastRoomY = roomView.getY();
+        lastRoomWidth = roomView.getWidth();
+        lastRoomHeight = roomView.getHeight();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("LifeCycle", "RoomConfigFragment.onDestroy(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d("LifeCycle", "RoomConfigFragment.onDetach(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
     }
 
     @Override
@@ -90,7 +168,7 @@ public class RoomConfigFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_add:
-                addNewUnitToRoom(new GraphicUnit(UnitType.SWITCH, 150, 150));
+                addNewUnitToRoom(new GraphicUnit(UnitType.SWITCH), 150, 150);
                 return true;
             case R.id.action_selection:
                 switchAllSelection();
@@ -100,10 +178,28 @@ public class RoomConfigFragment extends Fragment {
         }
     }
 
-    private void addNewUnitToRoom(GraphicUnit gUnit) {
+    private void addNewUnitToRoom(GraphicUnit gUnit, int x, int y) {
         unitHash.put(gUnit.id, gUnit);
+        drawUnitInRoom(gUnit, x, y);
+    }
+
+    private void drawUnitInRoom(GraphicUnit gUnit) {
+        int x = roomView.getX() != 0? Math.round(roomView.getX() + (roomView.getWidth() / gUnit.roomRelativeX)): Math.round(lastRoomX + (lastRoomWidth / gUnit.roomRelativeX));
+        int y = roomView.getY() != 0? Math.round(roomView.getY() + (roomView.getHeight() / gUnit.roomRelativeY)): Math.round(lastRoomY + (lastRoomHeight / gUnit.roomRelativeY));
+        drawUnitInRoom(gUnit, x, y);
+    }
+
+    private void drawUnitInRoom(GraphicUnit gUnit, int x, int y) {
         RelativeLayout layout = (RelativeLayout) fragmentView.findViewById(R.id.layout_room_setup);
-        layout.addView(gUnit.getView(fragmentView.getContext()));
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(x, y, 0, 0);
+        Log.d("UnitPos", params.leftMargin + "/" + params.topMargin);
+        View gView = gUnit.getView(fragmentView.getContext());
+        layout.addView(gView, params);
+        Log.d("UnitPos", "draw REL: " + gUnit.roomRelativeX + "/" + gUnit.roomRelativeY + "   Calc: X=(" + roomView.getWidth() + "/(" + gView.getX() + "-" + roomView.getX() + ")  Y=(" + roomView.getHeight() + "/(" + gView.getY() + "-" + roomView.getY() + ")");
     }
 
     View.OnDragListener dropListener = new View.OnDragListener() {
@@ -136,6 +232,13 @@ public class RoomConfigFragment extends Fragment {
                     droppedView.setX(Math.round(event.getX() + dragXDiff + v.getLeft() - 70));
                     droppedView.setY(Math.round(event.getY() + dragYDiff/* + v.getTop()*/ - 50));
                     droppedView.setVisibility(View.VISIBLE);
+
+                    GraphicUnit gUnit = unitHash.get(droppedView.getTag());
+                    gUnit.roomRelativeX = roomView.getWidth() / (droppedView.getX() - roomView.getX());
+                    gUnit.roomRelativeY = roomView.getHeight() / (droppedView.getY() - roomView.getY());
+
+                    Log.d("UnitPos", droppedView.getX() + "/" + droppedView.getY());
+                    Log.d("UnitPos", "dropped REL: " + gUnit.roomRelativeX + "/" + gUnit.roomRelativeY + "   Calc: X=(" + roomView.getWidth() + "/(" + droppedView.getX() + "-" + roomView.getX() + ")  Y=(" + roomView.getHeight() + "/(" + droppedView.getY() + "-" + roomView.getY() + ")");
                     break;
             }
             return true;

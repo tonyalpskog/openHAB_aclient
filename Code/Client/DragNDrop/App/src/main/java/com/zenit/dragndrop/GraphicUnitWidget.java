@@ -51,16 +51,6 @@ public class GraphicUnitWidget extends ImageView implements View.OnClickListener
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), imageResource);
         originalBitmap = bitmap;
         setImageBitmap(bitmap);
-//        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) getLayoutParams();
-//        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-//        params.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
-////        params.addRule(ViewGroup.MarginLayoutParams, true);
-////        params.addRule(ViewGroup.LEFT_OF, R.id.);
-////        ViewGroup.MarginLayoutParams marginParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-////        marginParams.setLayoutDirection(new Layout.Directions(Layoutdi));
-//        setLayoutParams(params); //causes layout update
-        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        setSelected(gUnit.isSelected());
         setOnLongClickListener(this);
         setOnClickListener(this);
     }
@@ -71,7 +61,7 @@ public class GraphicUnitWidget extends ImageView implements View.OnClickListener
 
     @Override
     public boolean onLongClick(View v) {
-       Log.i("G-Click", "Long click detected");
+       Log.d("G-Click", "Long click detected");
        ClipData clipData = ClipData.newPlainText("label","text");
        this.startDrag(clipData, new DragShadow(this), this, 0);
        return false;
@@ -79,9 +69,9 @@ public class GraphicUnitWidget extends ImageView implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        Log.i("G-Click", "View status BEFORE = " + (v.isSelected() ? "Selected" : "Not selected"));
+        Log.d("G-Click", "View status BEFORE = " + (v.isSelected() ? "Selected" : "Not selected"));
         gUnit.setSelected(!gUnit.isSelected());
-        Log.i("G-Click", "View status AFTER = " + (v.isSelected()? "Selected" : "Not selected"));
+        Log.d("G-Click", "View status AFTER = " + (v.isSelected()? "Selected" : "Not selected"));
     }
 
     public void drawSelection(boolean selected) {
@@ -93,7 +83,7 @@ public class GraphicUnitWidget extends ImageView implements View.OnClickListener
             int height = bounds.height();
             int bitmapWidth = getDrawable().getIntrinsicWidth();
             int bitmapHeight = getDrawable().getIntrinsicHeight();
-            Log.i("Bitmap", "Height = " + bitmapHeight + "   Width = " + bitmapWidth);
+            Log.d("Bitmap", "Height = " + bitmapHeight + "   Width = " + bitmapWidth);
 
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setColor(Color.RED);

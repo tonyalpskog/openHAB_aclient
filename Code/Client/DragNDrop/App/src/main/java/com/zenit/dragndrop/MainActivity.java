@@ -6,8 +6,13 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 public class MainActivity extends Activity {
 
@@ -20,6 +25,8 @@ public class MainActivity extends Activity {
      * {@link android.support.v13.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
+    public List<HashMap<UUID, GraphicUnit>> roomUnitList;
+
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -29,6 +36,13 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("LifeCycle", "MainActivity.onCreate()");
+
+        roomUnitList = new ArrayList<HashMap<UUID, GraphicUnit>>(3);
+        roomUnitList.add(0, new HashMap<UUID, GraphicUnit>());
+        roomUnitList.add(1, new HashMap<UUID, GraphicUnit>());
+        roomUnitList.add(2, new HashMap<UUID, GraphicUnit>());
+
         setContentView(R.layout.activity_main);
 
         // Create the adapter that will return a fragment for each of the three

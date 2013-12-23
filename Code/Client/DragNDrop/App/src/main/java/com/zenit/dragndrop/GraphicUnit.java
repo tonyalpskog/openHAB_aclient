@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import java.util.UUID;
 
@@ -15,33 +16,43 @@ import java.util.UUID;
 public class GraphicUnit {
     UUID id;
     UnitType type;
-    int relativeTop = 150;//TODO - Remove default values.
-    int relativeLeft = 150;
+    float roomRelativeX = 0;
+    float roomRelativeY = 0;
     private GraphicUnitWidget view;
     private boolean isSelected;
 
     public GraphicUnit(UnitType type) {
-        this(type, 150, 150);
+        this(type, 3, 4);
     }
 
-    public GraphicUnit(UnitType type, int relativeTop, int relativeLeft) {
+    public GraphicUnit(UnitType type, int roomRelativeX, int roomRelativeY) {
         this.type = type;
-        this.relativeTop = relativeTop;
-        this.relativeLeft = relativeLeft;
         this.view = null;
         isSelected = false;
+        this.roomRelativeX = roomRelativeX;
+        this.roomRelativeX = roomRelativeX;
         this.id = UUID.randomUUID();
     }
 
     public ImageView getView(Context context) {
         if(view == null) {
             view = new GraphicUnitWidget(context, this);
-            view.setTop(relativeTop);
-            view.setLeft(relativeLeft);
-            view.setTag(UUID.randomUUID());
-            view.setSelected(this.isSelected);
+//            view.setTop(relativeTop);
+//            view.setLeft(relativeLeft);
+//            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+//                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+//                    RelativeLayout.LayoutParams.WRAP_CONTENT
+//            );
+//            params.setMargins(relativeLeft, relativeTop, 0, 0);
+//            view.setLayoutParams(params);
+            view.setTag(id);
+            view.setSelected(isSelected);
         }
         return view;
+    }
+
+    public void resetView() {
+        view = null;
     }
 
     public boolean isSelected() {

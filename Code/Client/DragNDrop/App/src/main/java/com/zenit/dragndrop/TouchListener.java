@@ -8,6 +8,8 @@ import android.view.View;
 /**
  * Created by Tony Alpskog on 2013-12-22.
  */
+//TODO - Have a closer look at GestureDetector.OnGestureListener and ScaleGestureDetector.OnScaleGestureListener
+//TODO - Will those interfaces make this code better?
 public class TouchListener implements View.OnTouchListener {
 
     final String TAG = "TouchListener";
@@ -103,30 +105,30 @@ public class TouchListener implements View.OnTouchListener {
         return true;
     }
 
-    /** Show an event in the LogCat view, for debugging */
-    private void dumpEvent(MotionEvent event) {
-        String names[] = { "DOWN" , "UP" , "MOVE" , "CANCEL" , "OUTSIDE" ,
-                "POINTER_DOWN" , "POINTER_UP" , "7?" , "8?" , "9?" };
-        StringBuilder sb = new StringBuilder();
-        int action = event.getAction();
-        int actionCode = action & MotionEvent.ACTION_MASK;
-        sb.append("event ACTION_" ).append(names[actionCode]);
-        if (actionCode == MotionEvent.ACTION_POINTER_DOWN
-                || actionCode == MotionEvent.ACTION_POINTER_UP) {
-            sb.append("(pid " ).append(
-                    action >> MotionEvent.ACTION_POINTER_ID_SHIFT);
-            sb.append(")" );
-        }
-        sb.append("[" );
-        for (int i = 0; i < event.getPointerCount(); i++) {
-            sb.append("#" ).append(i);
-            sb.append("(pid " ).append(event.getPointerId(i));
-            sb.append(")=" ).append((int) event.getX(i));
-            sb.append("," ).append((int) event.getY(i));
-            if (i + 1 < event.getPointerCount())
-                sb.append(";" );
-        }
-        sb.append("]" );
-        Log.d(TAG, sb.toString());
-    }
+//    /** Show an event in the LogCat view, for debugging */
+//    private void dumpEvent(MotionEvent event) {
+//        String names[] = { "DOWN" , "UP" , "MOVE" , "CANCEL" , "OUTSIDE" ,
+//                "POINTER_DOWN" , "POINTER_UP" , "7?" , "8?" , "9?" };
+//        StringBuilder sb = new StringBuilder();
+//        int action = event.getAction();
+//        int actionCode = action & MotionEvent.ACTION_MASK;
+//        sb.append("event ACTION_" ).append(names[actionCode]);
+//        if (actionCode == MotionEvent.ACTION_POINTER_DOWN
+//                || actionCode == MotionEvent.ACTION_POINTER_UP) {
+//            sb.append("(pid " ).append(
+//                    action >> MotionEvent.ACTION_POINTER_ID_SHIFT);
+//            sb.append(")" );
+//        }
+//        sb.append("[" );
+//        for (int i = 0; i < event.getPointerCount(); i++) {
+//            sb.append("#" ).append(i);
+//            sb.append("(pid " ).append(event.getPointerId(i));
+//            sb.append(")=" ).append((int) event.getX(i));
+//            sb.append("," ).append((int) event.getY(i));
+//            if (i + 1 < event.getPointerCount())
+//                sb.append(";" );
+//        }
+//        sb.append("]" );
+//        Log.d(TAG, sb.toString());
+//    }
 }
