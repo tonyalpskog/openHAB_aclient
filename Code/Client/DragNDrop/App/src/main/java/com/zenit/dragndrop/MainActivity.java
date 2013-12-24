@@ -25,8 +25,6 @@ public class MainActivity extends Activity {
      * {@link android.support.v13.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
-    public List<HashMap<UUID, GraphicUnit>> roomUnitList;
-
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -37,11 +35,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("LifeCycle", "MainActivity.onCreate()");
-
-        roomUnitList = new ArrayList<HashMap<UUID, GraphicUnit>>(3);
-        roomUnitList.add(0, new HashMap<UUID, GraphicUnit>());
-        roomUnitList.add(1, new HashMap<UUID, GraphicUnit>());
-        roomUnitList.add(2, new HashMap<UUID, GraphicUnit>());
 
         setContentView(R.layout.activity_main);
 

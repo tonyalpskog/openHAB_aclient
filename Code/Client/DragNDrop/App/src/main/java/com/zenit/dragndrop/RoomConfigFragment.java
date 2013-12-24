@@ -5,8 +5,10 @@ package com.zenit.dragndrop;
  */
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
-import android.graphics.Point;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -24,7 +26,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -37,7 +38,6 @@ public class RoomConfigFragment extends Fragment {
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    private boolean doSelectAll = true;
     private HashMap<UUID, GraphicUnit> unitHash;
     private View fragmentView;
     private ImageView roomView;
@@ -76,7 +76,8 @@ public class RoomConfigFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d("LifeCycle", "RoomConfigFragment.onCreateView(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
-        unitHash = ((MainActivity) getActivity()).roomUnitList.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1);
+        unitHash = ((HABApplication) getActivity().getApplication()).getUnitHash(getArguments().getInt(ARG_SECTION_NUMBER) - 1);
+
         if(unitHash == null)
             unitHash = new HashMap<UUID, GraphicUnit>();
 
@@ -101,22 +102,22 @@ public class RoomConfigFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("LifeCycle", "RoomConfigFragment.onStart(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
-        Iterator unitIterator = unitHash.values().iterator();
-        GraphicUnit graphicUnit;
-        while (unitIterator.hasNext()) {
-            graphicUnit = (GraphicUnit) unitIterator.next();
-            Log.d("UnitPos", "onStart REL: " + graphicUnit.roomRelativeX + "/" + graphicUnit.roomRelativeY + "   Room: " + roomView.getX() + "/" + roomView.getY());
-            graphicUnit.resetView();
-            Log.d("UnitPos", "onStart REL: " + graphicUnit.roomRelativeX + "/" + graphicUnit.roomRelativeY + "   Room: " + roomView.getX() + "/" + roomView.getY());
-            drawUnitInRoom(graphicUnit);
-        }
+        Log.d("LifeCycle", "RoomConfigFragment.onStart(" + (getArguments() != null ? getArguments().getInt(ARG_SECTION_NUMBER) : "?") + ")");
     }
 
     @Override
     public void onResume() {
         super.onResume();
         Log.d("LifeCycle", "RoomConfigFragment.onResume(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        Iterator unitIterator = unitHash.values().iterator();
+        GraphicUnit graphicUnit;
+        while (unitIterator.hasNext()) {
+            graphicUnit = (GraphicUnit) unitIterator.next();
+            Log.d("UnitPos", "onResume REL: " + graphicUnit.roomRelativeX + "/" + graphicUnit.roomRelativeY + "   Room: " + roomView.getX() + "/" + roomView.getY());
+            graphicUnit.resetView();
+            Log.d("UnitPos", "onResume REL: " + graphicUnit.roomRelativeX + "/" + graphicUnit.roomRelativeY + "   Room: " + roomView.getX() + "/" + roomView.getY());
+            drawUnitInRoom(graphicUnit);
+        }
     }
 
     @Override
@@ -134,7 +135,7 @@ public class RoomConfigFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d("LifeCycle", "RoomConfigFragment.onDestroyView(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        Log.d("LifeCycle", "RoomConfigFragment.onDestroyView(" + (getArguments() != null ? getArguments().getInt(ARG_SECTION_NUMBER) : "?") + ")");
         //TODO - Add this as Bundle
         lastRoomX = roomView.getX();
         lastRoomY = roomView.getY();
@@ -168,14 +169,103 @@ public class RoomConfigFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_add:
-                addNewUnitToRoom(new GraphicUnit(UnitType.SWITCH), 150, 150);
+                showAddUnitDialog(getActivity());
                 return true;
             case R.id.action_selection:
-                switchAllSelection();
+                unitSelectionDialog(getActivity());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showAddUnitDialog(Context context) {
+        final CharSequence[] items = {"Switch", "Dimmer", "Heating", "Vent", "Socket"};
+
+        AlertDialog addUnitDialog;
+        // Creating and Building the Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        //builder.setOnDismissListener(new MyOnDismissListener());
+        builder.setTitle("Select unit type");
+        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+
+                switch(item)
+                {
+                    case 0:
+                        addNewUnitToRoom(new GraphicUnit(UnitType.SWITCH), 150, 150);
+                        break;
+                    case 1:
+                        addNewUnitToRoom(new GraphicUnit(UnitType.DIMMER), 150, 150);
+                        break;
+                    case 2:
+                        addNewUnitToRoom(new GraphicUnit(UnitType.ROOM_HEATER), 150, 150);
+                        break;
+                    case 3:
+                        addNewUnitToRoom(new GraphicUnit(UnitType.VENT), 150, 150);
+                        break;
+                    case 4:
+                        addNewUnitToRoom(new GraphicUnit(UnitType.SOCKET), 150, 150);
+                        break;
+
+                }
+                dialog.dismiss();
+            }
+        });
+        addUnitDialog = builder.create();
+        addUnitDialog.show();
+
+        class MyOnDismissListener implements DialogInterface.OnDismissListener {
+
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+            }
+        }
+    }
+
+    private void unitSelectionDialog(Context context) {
+        final CharSequence[] items = {"Select all", "Deselect all", "Select all of current type(s)"};
+
+        AlertDialog selectUnitDialog;
+        // Creating and Building the Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Choose selection type");
+        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+
+                switch(item)
+                {
+                    case 0:
+                        multiUnitSelection(true);
+                        break;
+                    case 1:
+                        multiUnitSelection(false);
+                        break;
+                    case 2:
+                        ArrayList<UnitType> selectedTypes = new ArrayList<UnitType>();
+
+                        Iterator iterator = unitHash.values().iterator();
+                        while(iterator.hasNext()) {
+                            GraphicUnit gu = (GraphicUnit) iterator.next();
+                            if(gu.isSelected() && !selectedTypes.contains(gu.type))
+                                selectedTypes.add(gu.type);
+                        }
+
+                        iterator = unitHash.values().iterator();
+                        while(iterator.hasNext()) {
+                            GraphicUnit gu = (GraphicUnit) iterator.next();
+                            if(!gu.isSelected() && selectedTypes.contains(gu.type))
+                                gu.setSelected(true);
+                        }
+                        break;
+                }
+                dialog.dismiss();
+            }
+        });
+        selectUnitDialog = builder.create();
+        selectUnitDialog.show();
     }
 
     private void addNewUnitToRoom(GraphicUnit gUnit, int x, int y) {
@@ -245,14 +335,12 @@ public class RoomConfigFragment extends Fragment {
         }
     };
 
-    private void switchAllSelection() {
+    private void multiUnitSelection(boolean doSelect) {
         Iterator iterator = unitHash.values().iterator();
         while(iterator.hasNext()) {
             GraphicUnit gu = (GraphicUnit) iterator.next();
-            setSelected(gu, doSelectAll);
+            setSelected(gu, doSelect);
         }
-
-        doSelectAll = !doSelectAll;
     }
 
     private void setSelected(GraphicUnit gu, boolean selected) {
