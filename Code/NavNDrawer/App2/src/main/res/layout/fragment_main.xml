@@ -10,19 +10,16 @@
 
     <TextView
         android:id="@+id/section_label"
+        android:text="Design time text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
 
-    <ViewFlipper
+    <com.zenit.navndrawer.RoomFlipper
         android:id="@+id/flipper"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:flipInterval="3000"
-        android:inAnimation="@android:anim/slide_in_left"
-        android:outAnimation="@android:anim/fade_out"
-        android:layout_centerInParent="true"
-
-        >
+        android:layout_centerInParent="true">
 
         <ImageView
             android:src="@drawable/img1"
@@ -64,6 +61,6 @@
             android:layout_gravity="center_horizontal"
             />
 
-    </ViewFlipper>
+    </com.zenit.navndrawer.RoomFlipper>
 
 </RelativeLayout>

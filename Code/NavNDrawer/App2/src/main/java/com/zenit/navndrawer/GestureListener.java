@@ -4,19 +4,20 @@ import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ViewFlipper;
 
 /**
  * Created by Tony Alpskog on 2013-12-22.
  */
 //TODO - Have a closer look at GestureDetector.OnGestureListener and ScaleGestureDetector.OnScaleGestureListener
 //TODO - Will those interfaces make this code better?
-public class TouchListener implements View.OnTouchListener {
+public class GestureListener implements View.OnTouchListener {
 
-    final String TAG = "TouchListener";
-    final String TAG2 = "Navigation";
+    final String TAG = "GestureListener";
+
+    OnGestureListener mOnGestureListener;
 
     final float MIN_PINCH_DISTANCE = 100;
+    final float MIN_SWIPE_DISTANCE = 100;
     //Touch event related variables
     final int IDLE = 0;
     final int TOUCH = 1;
@@ -31,18 +32,16 @@ public class TouchListener implements View.OnTouchListener {
     private float initialX;
     private float initialY;
 
-    private ViewFlipper touchViewFlipper;
+    private View mView;
 
-    public TouchListener(ViewFlipper viewFlipper) {
-        touchViewFlipper = viewFlipper;
+    public GestureListener(View view) {
+        mView = view;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         Log.d(TAG, MotionEvent.axisToString(event.getAction()));
 
-//        // Dump touch event to log
-//        dumpEvent(event);
         float distx, disty;
 
         switch(event.getAction() & MotionEvent.ACTION_MASK){
@@ -111,15 +110,9 @@ public class TouchListener implements View.OnTouchListener {
                         Log.d(TAG, "We got a pinch " + (isPinchOut? "OUT": "IN") + "(" + finalDist +")");
 
                         if(isPinchOut) {
-                            Log.d(TAG2, "Pinch to LOWER view");
-                            touchViewFlipper.setInAnimation(touchViewFlipper.getContext(), android.R.anim.fade_in);
-                            touchViewFlipper.setOutAnimation(touchViewFlipper.getContext(), android.R.anim.fade_out);
-                            touchViewFlipper.setDisplayedChild(touchViewFlipper.getDisplayedChild() == 0? touchViewFlipper.getChildCount() - 1: touchViewFlipper.getDisplayedChild() - 1);
+                            fireGestureEvent(Gesture.PINCH_OUT);
                         } else {
-                            Log.d(TAG2, "Pinch to UPPER view");
-                            touchViewFlipper.setInAnimation(touchViewFlipper.getContext(), android.R.anim.fade_in);
-                            touchViewFlipper.setOutAnimation(touchViewFlipper.getContext(), android.R.anim.fade_out);
-                            touchViewFlipper.setDisplayedChild(touchViewFlipper.getDisplayedChild() == touchViewFlipper.getChildCount() - 1? 0: touchViewFlipper.getDisplayedChild() + 1);
+                            fireGestureEvent(Gesture.PINCH_IN);
                         }
                     }
                     pinchBeginDist = pinchEndDist = 0;
@@ -132,40 +125,17 @@ public class TouchListener implements View.OnTouchListener {
                     if(Math.abs(initialX - finalX) > Math.abs(initialY - finalY)) {
                         //Horizontal swipe
                         if (initialX > finalX) {
-                            //Swipe to RIGHT view
-                            Log.d(TAG2, "Swipe to RIGHT view");
-
-                            touchViewFlipper.setInAnimation(touchViewFlipper.getContext(), R.anim.in_right);
-                            touchViewFlipper.setOutAnimation(touchViewFlipper.getContext(), R.anim.out_left);
-
-                            touchViewFlipper.setDisplayedChild(touchViewFlipper.getDisplayedChild() == touchViewFlipper.getChildCount() - 1? 0: touchViewFlipper.getDisplayedChild() + 1);
+                            //MIN_SWIPE_DISTANCE
+                            fireGestureEvent(Gesture.SWIPE_LEFT);
                         } else {
-                            //Swipe to LEFT view
-                            Log.d(TAG2, "Swipe to LEFT view");
-
-                            touchViewFlipper.setInAnimation(touchViewFlipper.getContext(), R.anim.in_left);
-                            touchViewFlipper.setOutAnimation(touchViewFlipper.getContext(), R.anim.out_right);
-
-                            touchViewFlipper.setDisplayedChild(touchViewFlipper.getDisplayedChild() == 0? touchViewFlipper.getChildCount() - 1: touchViewFlipper.getDisplayedChild() - 1);
+                            fireGestureEvent(Gesture.SWIPE_RIGHT);
                         }
                     } else {
                         //Vertical swipe
                         if (initialY > finalY) {
-                            //Swipe to LOWER view
-                            Log.d(TAG2, "Swipe to LOWER view");
-
-                            touchViewFlipper.setInAnimation(touchViewFlipper.getContext(), R.anim.in_down);
-                            touchViewFlipper.setOutAnimation(touchViewFlipper.getContext(), R.anim.out_up);
-
-                            touchViewFlipper.setDisplayedChild(touchViewFlipper.getDisplayedChild() == 0? touchViewFlipper.getChildCount() - 1: touchViewFlipper.getDisplayedChild() - 1);
+                            fireGestureEvent(Gesture.SWIPE_UP);
                         } else {
-                            //Swipe to UPPER view
-                            Log.d(TAG2, "Swipe to UPPER view");
-
-                            touchViewFlipper.setInAnimation(touchViewFlipper.getContext(), R.anim.in_up);
-                            touchViewFlipper.setOutAnimation(touchViewFlipper.getContext(), R.anim.out_down);
-
-                            touchViewFlipper.setDisplayedChild(touchViewFlipper.getDisplayedChild() == touchViewFlipper.getChildCount() - 1? 0: touchViewFlipper.getDisplayedChild() + 1);
+                            fireGestureEvent(Gesture.SWIPE_DOWN);
                         }
                     }
                 }
@@ -180,30 +150,30 @@ public class TouchListener implements View.OnTouchListener {
         return true;
     }
 
-//    /** Show an event in the LogCat view, for debugging */
-//    private void dumpEvent(MotionEvent event) {
-//        String names[] = { "DOWN" , "UP" , "MOVE" , "CANCEL" , "OUTSIDE" ,
-//                "POINTER_DOWN" , "POINTER_UP" , "7?" , "8?" , "9?" };
-//        StringBuilder sb = new StringBuilder();
-//        int action = event.getAction();
-//        int actionCode = action & MotionEvent.ACTION_MASK;
-//        sb.append("event ACTION_" ).append(names[actionCode]);
-//        if (actionCode == MotionEvent.ACTION_POINTER_DOWN
-//                || actionCode == MotionEvent.ACTION_POINTER_UP) {
-//            sb.append("(pid " ).append(
-//                    action >> MotionEvent.ACTION_POINTER_ID_SHIFT);
-//            sb.append(")" );
-//        }
-//        sb.append("[" );
-//        for (int i = 0; i < event.getPointerCount(); i++) {
-//            sb.append("#" ).append(i);
-//            sb.append("(pid " ).append(event.getPointerId(i));
-//            sb.append(")=" ).append((int) event.getX(i));
-//            sb.append("," ).append((int) event.getY(i));
-//            if (i + 1 < event.getPointerCount())
-//                sb.append(";" );
-//        }
-//        sb.append("]" );
-//        Log.d(TAG, sb.toString());
-//    }
+    /**
+     * Interface definition for a callback to be invoked when another room is shown.
+     * The callback will be invoked after the new room is shown.
+     */
+    public interface OnGestureListener {
+        /**
+         * Called when another room is shown.
+         *
+         * @param v The view the touch event has been dispatched to.
+         * @param gesture The Gesture enum value.
+         * @return True if the listener has consumed the event, false otherwise.
+         */
+        boolean onGesture(View v, Gesture gesture);
+    }
+
+    public void setOnGestureListener(OnGestureListener eventListener) {
+        mOnGestureListener = eventListener;
+    }
+
+    private boolean fireGestureEvent(Gesture gesture) {
+        if(mOnGestureListener != null) {
+            mOnGestureListener.onGesture(mView, gesture);
+            return true;
+        } else Log.w(TAG, "Cannot post event. OnGestureListener is NULL");
+        return false;
+    }
 }

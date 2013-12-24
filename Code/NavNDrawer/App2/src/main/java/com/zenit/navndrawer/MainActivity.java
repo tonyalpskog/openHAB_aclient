@@ -102,13 +102,14 @@ public class MainActivity extends Activity
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment implements RoomFlipper.OnRoomShiftListener {
         /**
          * The fragment argument representing the section number for this
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-        private ViewFlipper roomViewFlipper;
+        private RoomFlipper roomViewFlipper;
+        TextView textView;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -129,13 +130,14 @@ public class MainActivity extends Activity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
 
-            roomViewFlipper = (ViewFlipper) rootView.findViewById(R.id.flipper);
+            roomViewFlipper = (RoomFlipper) rootView.findViewById(R.id.flipper);
 
             roomViewFlipper.setDisplayedChild(2);//Show middle image as initial image
-            rootView.setOnTouchListener(new TouchListener(roomViewFlipper));
+            roomViewFlipper.setGestureListener(new GestureListener(rootView));
+            roomViewFlipper.setOnRoomShiftListener(this);
 
             return rootView;
         }
@@ -147,6 +149,11 @@ public class MainActivity extends Activity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
 
+        @Override
+        public boolean onRoomShift(int newView, int oldView) {
+            textView.setText("Current image: " + newView);
+            return false;
+        }
     }
 
 }
