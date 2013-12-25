@@ -1,7 +1,6 @@
 package com.zenit.navndrawer;
 
 import android.app.Activity;
-;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {

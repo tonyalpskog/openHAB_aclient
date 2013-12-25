@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 /**
- * Created by Tony Alpskog on 2013-12-22.
+ * Created by Tony Alpskog in 2013.
  */
 //TODO - Have a closer look at GestureDetector.OnGestureListener and ScaleGestureDetector.OnScaleGestureListener
 //TODO - Will those interfaces make this code better?

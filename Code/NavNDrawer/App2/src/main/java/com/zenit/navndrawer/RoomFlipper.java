@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
 /**
- * Created by Tony Alpskog on 2013-12-24.
+ * Created by Tony Alpskog in 2013.
  */
 public class RoomFlipper extends ViewFlipper implements GestureListener.OnGestureListener {
 
@@ -190,5 +190,6 @@ public class RoomFlipper extends ViewFlipper implements GestureListener.OnGestur
         flipperImages = new ImageView[2];
         flipperImages[0] = (ImageView) findViewById(R.id.flipper_image_1);
         flipperImages[1] = (ImageView) findViewById(R.id.flipper_image_2);
+        flipperImages[getDisplayedChild()].setImageBitmap(mRoomFlipperAdapter.getCurrentBitmap());
     }
 }

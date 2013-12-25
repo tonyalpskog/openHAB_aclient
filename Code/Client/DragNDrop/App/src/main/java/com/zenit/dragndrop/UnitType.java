@@ -1,7 +1,7 @@
 package com.zenit.dragndrop;
 
 /**
- * Created by Tony Alpskog on 2013-12-21.
+ * Created by Tony Alpskog in 2013.
  */
 public enum UnitType {
     SWITCH(0),

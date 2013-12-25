@@ -6,74 +6,70 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 /**
- * Created by Tony Alpskog on 2013-12-24.
+ * Created by Tony Alpskog in 2013.
  */
 public class RoomFlipperAdapter {
 
     private final String TAG = "RoomFlipperAdapter";
-    private int currentImageIndex = 0;
-    private Bitmap[] bitmapList = null;
     private Context mContext = null;
+    private Room currentRoom;
+    private RoomProvider roomProvider;
 
     public RoomFlipperAdapter(Context context) {
         mContext = context;
-
-        bitmapList = new Bitmap[] {
-            BitmapFactory.decodeResource(mContext.getResources(), R.drawable.img1),
-            BitmapFactory.decodeResource(mContext.getResources(), R.drawable.img2),
-            BitmapFactory.decodeResource(mContext.getResources(), R.drawable.img3),
-            BitmapFactory.decodeResource(mContext.getResources(), R.drawable.img4),
-            BitmapFactory.decodeResource(mContext.getResources(), R.drawable.img5),
-        };
+        roomProvider = new RoomProvider(mContext);
+        currentRoom = roomProvider.getInitialRoom();
     }
 
-    private int getNextIndex() {
-        currentImageIndex = (currentImageIndex == bitmapList.length - 1? 0 : currentImageIndex + 1);
-        return currentImageIndex;
-    }
-
-    private int getPrevIndex() {
-        currentImageIndex = (currentImageIndex == 0? bitmapList.length - 1 : currentImageIndex - 1);
-        return currentImageIndex;
+    public Bitmap getCurrentBitmap() {
+        return BitmapFactory.decodeResource(mContext.getResources(), currentRoom.getDrawableResourceId());
     }
 
     public Bitmap getBitmap(Gesture gesture) {
         Bitmap nextBitmap = null;
+        Room nextRoom = null;
+
         switch(gesture) {
             case PINCH_OUT:
                 Log.d(TAG, "Pinch to LOWER view");
-                nextBitmap = bitmapList[getPrevIndex()];
+                nextRoom = currentRoom.getRoomByAlignment(Direction.BELOW);
                 break;
 
             case PINCH_IN:
                 Log.d(TAG, "Pinch to UPPER view");
-                nextBitmap = bitmapList[getNextIndex()];
+                nextRoom = currentRoom.getRoomByAlignment(Direction.ABOVE);
                 break;
 
             case SWIPE_LEFT:
                 //Swipe to RIGHT view
                 Log.d(TAG, "Swipe to RIGHT view");
-                nextBitmap = bitmapList[getNextIndex()];
+                nextRoom = currentRoom.getRoomByAlignment(Direction.RIGHT);
                 break;
 
             case SWIPE_RIGHT:
                 //Swipe to LEFT view
                 Log.d(TAG, "Swipe to LEFT view");
-                nextBitmap = bitmapList[getPrevIndex()];
+                nextRoom = currentRoom.getRoomByAlignment(Direction.LEFT);
                 break;
 
             case SWIPE_UP:
                 //Swipe to LOWER view
                 Log.d(TAG, "Swipe to LOWER view");
-                nextBitmap = bitmapList[getPrevIndex()];
+                nextRoom = currentRoom.getRoomByAlignment(Direction.DOWN);
                 break;
 
             case SWIPE_DOWN:
                 //Swipe to UPPER view
                 Log.d(TAG, "Swipe to UPPER view");
-                nextBitmap = bitmapList[getNextIndex()];
+                nextRoom = currentRoom.getRoomByAlignment(Direction.UP);
                 break;
         }
+
+        if(nextRoom != null) {
+            currentRoom = nextRoom;
+            nextBitmap = BitmapFactory.decodeResource(mContext.getResources(), currentRoom.getDrawableResourceId());
+        }
+
         return nextBitmap;
     }
 }

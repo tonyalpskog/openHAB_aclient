@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 /**
- * Created by Tony Alpskog on 2013-12-22.
+ * Created by Tony Alpskog in 2013.
  */
 //Use DragShadow to modify the object shown when dragged.
 public class DragShadow extends View.DragShadowBuilder {

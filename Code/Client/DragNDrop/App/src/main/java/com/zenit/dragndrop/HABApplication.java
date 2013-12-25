@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by Tony Alpskog on 2013-12-23.
+ * Created by Tony Alpskog in 2013.
  */
 public class HABApplication extends Application {
     private List<HashMap<UUID, GraphicUnit>> roomUnitList = new ArrayList<HashMap<UUID, GraphicUnit>>(3);

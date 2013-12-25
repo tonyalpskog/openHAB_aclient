@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import java.util.UUID;
 
 /**
- * Created by Tony Alpskog on 2013-12-21.
+ * Created by Tony Alpskog in 2013.
  */
 public class GraphicUnit {
     UUID id;

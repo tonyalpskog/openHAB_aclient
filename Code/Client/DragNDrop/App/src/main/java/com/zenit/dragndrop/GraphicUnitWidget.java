@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 /**
- * Created by Tony Alpskog on 2013-12-21.
+ * Created by Tony Alpskog in 2013.
  */
 public class GraphicUnitWidget extends ImageView implements View.OnClickListener, View.OnLongClickListener {
 

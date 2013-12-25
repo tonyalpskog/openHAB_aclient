@@ -1,7 +1,7 @@
 package com.zenit.navndrawer;
 
 /**
- * Created by Tony Alpskog on 2013-12-21.
+ * Created by Tony Alpskog in 2013.
  */
 public enum Gesture {
     SWIPE_UP(0),
