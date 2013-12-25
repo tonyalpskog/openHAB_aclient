@@ -90,6 +90,7 @@ public class RoomProvider {
 
         initialRoomId = room0Center.getId();
 
+        //Aligning basement
         room0Center.setAlignment(room0West, Direction.LEFT);
         room0Center.setAlignment(room0East, Direction.RIGHT);
         room0Center.setAlignment(room0North, Direction.UP);
@@ -132,21 +133,99 @@ public class RoomProvider {
         room0South.setAlignment(room0Center, Direction.UP);
         room0South.setAlignment(room1South, Direction.ABOVE);
 
+        //Aligning ground level
+        room1Center.setAlignment(room1West, Direction.LEFT);
+        room1Center.setAlignment(room1East, Direction.RIGHT);
+        room1Center.setAlignment(room1North, Direction.UP);
+        room1Center.setAlignment(room1South, Direction.DOWN);
+        room1Center.setAlignment(room0Center, Direction.BELOW);
+        room1Center.setAlignment(room2Center, Direction.ABOVE);
 
+        room1North.setAlignment(room1NorthWest, Direction.LEFT);
+        room1North.setAlignment(room1NorthEast, Direction.RIGHT);
+        room1North.setAlignment(room1Center, Direction.DOWN);
+        room1North.setAlignment(room0North, Direction.BELOW);
+        room1North.setAlignment(room2North, Direction.ABOVE);
 
+        room1NorthWest.setAlignment(room1North, Direction.RIGHT);
+        room1NorthWest.setAlignment(room1West, Direction.DOWN);
+        room1NorthWest.setAlignment(room0NorthWest, Direction.BELOW);
+        room1NorthWest.setAlignment(room2NorthWest, Direction.ABOVE);
 
+        room1West.setAlignment(room1Center, Direction.RIGHT);
+        room1West.setAlignment(room1NorthWest, Direction.UP);
+        room1West.setAlignment(room1SouthWest, Direction.DOWN);
+        room1West.setAlignment(room0West, Direction.BELOW);
+        room1West.setAlignment(room2West, Direction.ABOVE);
 
+        room1SouthWest.setAlignment(room1South, Direction.RIGHT);
+        room1SouthWest.setAlignment(room1West, Direction.UP);
+        room1SouthWest.setAlignment(room0SouthWest, Direction.BELOW);
+        room1SouthWest.setAlignment(room2SouthWest, Direction.ABOVE);
 
+        room1South.setAlignment(room1SouthWest, Direction.LEFT);
+        room1South.setAlignment(room1SouthEast, Direction.RIGHT);
+        room1South.setAlignment(room1Center, Direction.UP);
+        room1South.setAlignment(room0South, Direction.BELOW);
+        room1South.setAlignment(room2South, Direction.ABOVE);
 
-//        room0Center.setAlignment(room0East, Direction.LEFT);
-//        room0Center.setAlignment(room0East, Direction.RIGHT);
-//        room0Center.setAlignment(room0East, Direction.UP);
-//        room0Center.setAlignment(room0East, Direction.DOWN);
-//        room0Center.setAlignment(room0East, Direction.BELOW);
-//        room0Center.setAlignment(room0East, Direction.ABOVE);
-//        for(int i = 1; i < 28; i++) {
-//            Room room
-//            add(new Room())
-//        }
+        room1SouthEast.setAlignment(room1South, Direction.LEFT);
+        room1SouthEast.setAlignment(room1East, Direction.UP);
+        room1SouthEast.setAlignment(room0SouthEast, Direction.BELOW);
+        room1SouthEast.setAlignment(room2SouthEast, Direction.ABOVE);
+
+        room1East.setAlignment(room1Center, Direction.LEFT);
+        room1East.setAlignment(room1NorthEast, Direction.UP);
+        room1East.setAlignment(room1SouthEast, Direction.DOWN);
+        room1East.setAlignment(room0East, Direction.BELOW);
+        room1East.setAlignment(room2East, Direction.ABOVE);
+
+        room1NorthEast.setAlignment(room1North, Direction.LEFT);
+        room1NorthEast.setAlignment(room1East, Direction.DOWN);
+        room1NorthEast.setAlignment(room0NorthEast, Direction.BELOW);
+        room1NorthEast.setAlignment(room2NorthEast, Direction.ABOVE);
+
+        //Alignment upper level
+        room2Center.setAlignment(room2West, Direction.LEFT);
+        room2Center.setAlignment(room2East, Direction.RIGHT);
+        room2Center.setAlignment(room2North, Direction.UP);
+        room2Center.setAlignment(room2South, Direction.DOWN);
+        room2Center.setAlignment(room1Center, Direction.BELOW);
+
+        room2North.setAlignment(room2NorthWest, Direction.LEFT);
+        room2North.setAlignment(room2NorthEast, Direction.RIGHT);
+        room2North.setAlignment(room2Center, Direction.DOWN);
+        room2North.setAlignment(room1North, Direction.BELOW);
+
+        room2NorthWest.setAlignment(room2North, Direction.RIGHT);
+        room2NorthWest.setAlignment(room2West, Direction.DOWN);
+        room2NorthWest.setAlignment(room1NorthWest, Direction.BELOW);
+
+        room2West.setAlignment(room2Center, Direction.RIGHT);
+        room2West.setAlignment(room2NorthWest, Direction.UP);
+        room2West.setAlignment(room2SouthWest, Direction.DOWN);
+        room2West.setAlignment(room1West, Direction.BELOW);
+
+        room2SouthWest.setAlignment(room2South, Direction.RIGHT);
+        room2SouthWest.setAlignment(room2West, Direction.UP);
+        room2SouthWest.setAlignment(room1SouthWest, Direction.BELOW);
+
+        room2South.setAlignment(room2SouthWest, Direction.LEFT);
+        room2South.setAlignment(room2SouthEast, Direction.RIGHT);
+        room2South.setAlignment(room2Center, Direction.UP);
+        room2South.setAlignment(room1South, Direction.BELOW);
+
+        room2SouthEast.setAlignment(room2South, Direction.LEFT);
+        room2SouthEast.setAlignment(room2East, Direction.UP);
+        room2SouthEast.setAlignment(room1SouthEast, Direction.BELOW);
+
+        room2East.setAlignment(room2Center, Direction.LEFT);
+        room2East.setAlignment(room2NorthEast, Direction.UP);
+        room2East.setAlignment(room2SouthEast, Direction.DOWN);
+        room2East.setAlignment(room1East, Direction.BELOW);
+
+        room2NorthEast.setAlignment(room2North, Direction.LEFT);
+        room2NorthEast.setAlignment(room2East, Direction.DOWN);
+        room2NorthEast.setAlignment(room1NorthEast, Direction.BELOW);
     }
 }

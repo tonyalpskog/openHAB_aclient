@@ -18,6 +18,7 @@ public class GestureListener implements View.OnTouchListener {
 
     final float MIN_PINCH_DISTANCE = 100;
     final float MIN_SWIPE_DISTANCE = 100;
+    final float DIAGONAL_FACTOR = 2;
     //Touch event related variables
     final int IDLE = 0;
     final int TOUCH = 1;
@@ -122,20 +123,24 @@ public class GestureListener implements View.OnTouchListener {
                     float finalX = event.getX();
                     float finalY = event.getY();
 
-                    if(Math.abs(initialX - finalX) > Math.abs(initialY - finalY)) {
-                        //Horizontal swipe
-                        if (initialX > finalX) {
-                            //MIN_SWIPE_DISTANCE
-                            fireGestureEvent(Gesture.SWIPE_LEFT);
-                        } else {
-                            fireGestureEvent(Gesture.SWIPE_RIGHT);
-                        }
-                    } else {
-                        //Vertical swipe
-                        if (initialY > finalY) {
-                            fireGestureEvent(Gesture.SWIPE_UP);
-                        } else {
-                            fireGestureEvent(Gesture.SWIPE_DOWN);
+                    float xDistance = Math.abs(initialX - finalX);
+                    float yDistance = Math.abs(initialY - finalY);
+
+                    if(xDistance > yDistance? xDistance / yDistance > DIAGONAL_FACTOR : yDistance / xDistance > DIAGONAL_FACTOR) {
+                        if(xDistance > yDistance && xDistance > MIN_SWIPE_DISTANCE) {
+                            //Horizontal swipe
+                            if (initialX > finalX) {
+                                fireGestureEvent(Gesture.SWIPE_LEFT);
+                            } else {
+                                fireGestureEvent(Gesture.SWIPE_RIGHT);
+                            }
+                        } else if(yDistance > xDistance && yDistance > MIN_SWIPE_DISTANCE) {
+                            //Vertical swipe
+                            if (initialY > finalY) {
+                                fireGestureEvent(Gesture.SWIPE_UP);
+                            } else {
+                                fireGestureEvent(Gesture.SWIPE_DOWN);
+                            }
                         }
                     }
                 }
