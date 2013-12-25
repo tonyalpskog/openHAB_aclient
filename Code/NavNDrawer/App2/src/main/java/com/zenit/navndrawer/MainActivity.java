@@ -135,9 +135,10 @@ public class MainActivity extends Activity
 
             roomViewFlipper = (RoomFlipper) rootView.findViewById(R.id.flipper);
 
-            roomViewFlipper.setDisplayedChild(2);//Show middle image as initial image
+            roomViewFlipper.setDisplayedChild(0);//Show middle image as initial image
             roomViewFlipper.setGestureListener(new GestureListener(rootView));
             roomViewFlipper.setOnRoomShiftListener(this);
+            roomViewFlipper.setRoomFlipperAdapter(new RoomFlipperAdapter(rootView.getContext()));
 
             return rootView;
         }
@@ -150,8 +151,8 @@ public class MainActivity extends Activity
         }
 
         @Override
-        public boolean onRoomShift(int newView, int oldView) {
-            textView.setText("Current image: " + newView);
+        public boolean onRoomShift(Gesture gesture) {
+            textView.setText("Last direction: " + gesture.name());
             return false;
         }
     }
