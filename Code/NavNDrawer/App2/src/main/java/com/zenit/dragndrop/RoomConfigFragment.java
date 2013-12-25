@@ -23,6 +23,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.zenit.navndrawer.HABApplication;
+import com.zenit.navndrawer.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -86,7 +89,6 @@ public class RoomConfigFragment extends Fragment {
         roomView = (ImageView) fragmentView.findViewById(R.id.dropImage);
 
         roomView.setOnDragListener(dropListener);
-        roomView.setOnTouchListener(new TouchListener());
 
         textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
 

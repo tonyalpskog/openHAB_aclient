@@ -43,7 +43,7 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_room_flipper, container, false);
-        textView = (TextView) rootView.findViewById(R.id.section_label);
+        textView = (TextView) rootView.findViewById(R.id.room_flipper_section_label);
         textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
 
         roomViewFlipper = (RoomFlipper) rootView.findViewById(R.id.flipper);

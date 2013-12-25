@@ -9,7 +9,7 @@
     tools:context="com.zenit.navndrawer.MainActivity.RoomFlipperFragment">
 
     <TextView
-        android:id="@+id/section_label"
+        android:id="@+id/room_flipper_section_label"
         android:text="Design time text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,13 +22,12 @@
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/section_label">
+        android:layout_below="@+id/room_flipper_section_label">
 
         <com.zenit.navndrawer.RoomFlipper
             android:id="@+id/flipper"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_centerInParent="true"
             android:layout_gravity="center">
 
             <ImageView

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
+import com.zenit.dragndrop.RoomConfigFragment;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -45,9 +46,20 @@ public class MainActivity extends Activity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, RoomFlipperFragment.newInstance(position + 1))
-                .commit();
+        Fragment newFragment = null;
+        switch (position) {
+            case 0:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, RoomConfigFragment.newInstance(position + 1))
+                        .commit();
+                    break;
+            default:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, RoomFlipperFragment.newInstance(position + 1))
+                        .commit();
+                break;
+
+        }
     }
 
     public void onSectionAttached(int number) {
@@ -78,7 +90,7 @@ public class MainActivity extends Activity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+            getMenuInflater().inflate(R.menu.global, menu);
             restoreActionBar();
             return true;
         }
