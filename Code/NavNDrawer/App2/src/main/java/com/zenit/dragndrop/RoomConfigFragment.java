@@ -34,7 +34,7 @@ import java.util.UUID;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class RoomConfigFragment extends Fragment {
+public class RoomConfigFragment extends Fragment implements DropTargetImageView.OnDragTargetUpdate {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -43,7 +43,7 @@ public class RoomConfigFragment extends Fragment {
 
     private HashMap<UUID, GraphicUnit> unitHash;
     private View fragmentView;
-    private ImageView roomView;
+    private DropTargetImageView roomView;
     private float lastRoomX, lastRoomY;
     private int lastRoomWidth, lastRoomHeight;
 
@@ -86,9 +86,10 @@ public class RoomConfigFragment extends Fragment {
 
         fragmentView = inflater.inflate(R.layout.fragment_room_config, container, false);
         TextView textView = (TextView) fragmentView.findViewById(R.id.room_config_section_label);
-        roomView = (ImageView) fragmentView.findViewById(R.id.dropImage);
+        roomView = (DropTargetImageView) fragmentView.findViewById(R.id.dropImage);
 
         roomView.setOnDragListener(dropListener);
+        roomView.setOnDragTargetUpdate(this);
 
         textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
 
@@ -107,15 +108,6 @@ public class RoomConfigFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d("LifeCycle", "RoomConfigFragment.onResume(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
-        Iterator unitIterator = unitHash.values().iterator();
-        GraphicUnit graphicUnit;
-        while (unitIterator.hasNext()) {
-            graphicUnit = (GraphicUnit) unitIterator.next();
-            Log.d("UnitPos", "onResume REL: " + graphicUnit.roomRelativeX + "/" + graphicUnit.roomRelativeY + "   Room: " + roomView.getX() + "/" + roomView.getY());
-            graphicUnit.resetView();
-            Log.d("UnitPos", "onResume REL: " + graphicUnit.roomRelativeX + "/" + graphicUnit.roomRelativeY + "   Room: " + roomView.getX() + "/" + roomView.getY());
-            drawUnitInRoom(graphicUnit);
-        }
     }
 
     @Override
@@ -344,6 +336,20 @@ public class RoomConfigFragment extends Fragment {
     private void setSelected(GraphicUnit gu, boolean selected) {
         if(gu != null && gu.isSelected() != selected)
             gu.setSelected(selected);
+    }
+
+    @Override
+    public boolean onDragTargetUpdate(View v) {
+        Iterator unitIterator = unitHash.values().iterator();
+        GraphicUnit graphicUnit;
+        while (unitIterator.hasNext()) {
+            graphicUnit = (GraphicUnit) unitIterator.next();
+            Log.d("UnitPos", "onDragTargetUpdate REL: " + graphicUnit.roomRelativeX + "/" + graphicUnit.roomRelativeY + "   Room: " + roomView.getX() + "/" + roomView.getY());
+            graphicUnit.resetView();
+            Log.d("UnitPos", "onDragTargetUpdate REL: " + graphicUnit.roomRelativeX + "/" + graphicUnit.roomRelativeY + "   Room: " + roomView.getX() + "/" + roomView.getY());
+            drawUnitInRoom(graphicUnit);
+        }
+        return true;
     }
 }
 
