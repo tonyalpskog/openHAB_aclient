@@ -44,8 +44,6 @@ public class RoomConfigFragment extends Fragment implements DropTargetImageView.
     private HashMap<UUID, GraphicUnit> unitHash;
     private View fragmentView;
     private DropTargetImageView roomView;
-    private float lastRoomX, lastRoomY;
-    private int lastRoomWidth, lastRoomHeight;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -126,11 +124,6 @@ public class RoomConfigFragment extends Fragment implements DropTargetImageView.
     public void onDestroyView() {
         super.onDestroyView();
         Log.d("LifeCycle", "RoomConfigFragment.onDestroyView(" + (getArguments() != null ? getArguments().getInt(ARG_SECTION_NUMBER) : "?") + ")");
-        //TODO - Add this as Bundle
-        lastRoomX = roomView.getX();
-        lastRoomY = roomView.getY();
-        lastRoomWidth = roomView.getWidth();
-        lastRoomHeight = roomView.getHeight();
     }
 
     @Override
@@ -264,8 +257,10 @@ public class RoomConfigFragment extends Fragment implements DropTargetImageView.
     }
 
     private void drawUnitInRoom(GraphicUnit gUnit) {
-        int x = roomView.getX() != 0? Math.round(roomView.getX() + (roomView.getWidth() / gUnit.roomRelativeX)): Math.round(lastRoomX + (lastRoomWidth / gUnit.roomRelativeX));
-        int y = roomView.getY() != 0? Math.round(roomView.getY() + (roomView.getHeight() / gUnit.roomRelativeY)): Math.round(lastRoomY + (lastRoomHeight / gUnit.roomRelativeY));
+//        int x = roomView.getX() != 0? Math.round(roomView.getScaledBitmapX() + (roomView.getScaledBitmapWidth() / gUnit.roomRelativeX)): Math.round(lastRoomX + (lastRoomWidth / gUnit.roomRelativeX));
+//        int y = roomView.getY() != 0? Math.round(roomView.getScaledBitmapY() + (roomView.getScaledBitmapHeight() / gUnit.roomRelativeY)): Math.round(lastRoomY + (lastRoomHeight / gUnit.roomRelativeY));
+        int x = Math.round(roomView.getScaledBitmapX() + (roomView.getScaledBitmapWidth() / gUnit.roomRelativeX));
+        int y = Math.round(roomView.getScaledBitmapY() + (roomView.getScaledBitmapHeight() / gUnit.roomRelativeY));
         drawUnitInRoom(gUnit, x, y);
     }
 
@@ -275,11 +270,13 @@ public class RoomConfigFragment extends Fragment implements DropTargetImageView.
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT
         );
+
         params.setMargins(x, y, 0, 0);
         Log.d("UnitPos", params.leftMargin + "/" + params.topMargin);
+        Log.d("Unit", "drawUnitInRoom() view group x/y = " + layout.getX() + "/" + layout.getY() + "    room x/y = " + roomView.getScaledBitmapX() + "/" + roomView.getScaledBitmapY());
         View gView = gUnit.getView(fragmentView.getContext());
         layout.addView(gView, params);
-        Log.d("UnitPos", "draw REL: " + gUnit.roomRelativeX + "/" + gUnit.roomRelativeY + "   Calc: X=(" + roomView.getWidth() + "/(" + gView.getX() + "-" + roomView.getX() + ")  Y=(" + roomView.getHeight() + "/(" + gView.getY() + "-" + roomView.getY() + ")");
+        Log.d("Unit", "drawUnitInRoom() type=" + gUnit.type.name() + "   in x/y = " + x + "/" + y + "   out x/y = " + gView.getX() + "/" + gView.getY());
     }
 
     View.OnDragListener dropListener = new View.OnDragListener() {
@@ -309,16 +306,18 @@ public class RoomConfigFragment extends Fragment implements DropTargetImageView.
                     ImageView droppedView = (ImageView) event.getLocalState();
                     Log.i("DragEvent", "Dropped at LAMP = " + Math.round(event.getX() + dragXDiff) + "/" + Math.round(event.getY() + dragYDiff) + "   EVENT = " + event.getX() + "/" + event.getY());
                     Log.i("DragEvent", "Drop target at TOP = " + v.getTop() + "   LEFT = " + v.getLeft());
-                    droppedView.setX(Math.round(event.getX() + dragXDiff + v.getLeft() - 70));
-                    droppedView.setY(Math.round(event.getY() + dragYDiff/* + v.getTop()*/ - 50));
+//                    droppedView.setX(Math.round(event.getX() + dragXDiff + v.getLeft() - 70));
+//                    droppedView.setY(Math.round(event.getY() + dragYDiff/* + v.getTop()*/ - 50));
+                    droppedView.setX(Math.round(event.getX())-30);
+                    droppedView.setY(Math.round(event.getY())+20);
                     droppedView.setVisibility(View.VISIBLE);
 
                     GraphicUnit gUnit = unitHash.get(droppedView.getTag());
-                    gUnit.roomRelativeX = roomView.getWidth() / (droppedView.getX() - roomView.getX());
-                    gUnit.roomRelativeY = roomView.getHeight() / (droppedView.getY() - roomView.getY());
+                    gUnit.roomRelativeX = roomView.getScaledBitmapWidth() / (droppedView.getX() - roomView.getScaledBitmapX());
+                    gUnit.roomRelativeY = roomView.getScaledBitmapHeight() / (droppedView.getY() - roomView.getScaledBitmapY());
 
-                    Log.d("UnitPos", droppedView.getX() + "/" + droppedView.getY());
-                    Log.d("UnitPos", "dropped REL: " + gUnit.roomRelativeX + "/" + gUnit.roomRelativeY + "   Calc: X=(" + roomView.getWidth() + "/(" + droppedView.getX() + "-" + roomView.getX() + ")  Y=(" + roomView.getHeight() + "/(" + droppedView.getY() + "-" + roomView.getY() + ")");
+                    Log.d("Unit", "Dropped view pos X/Y = " + droppedView.getX() + "/" + droppedView.getY());
+                    Log.d("UnitPos", "dropped REL: " + gUnit.roomRelativeX + "/" + gUnit.roomRelativeY + "   Calc: X=(" + roomView.getScaledBitmapWidth() + "/(" + droppedView.getX() + "-" + roomView.getScaledBitmapX() + ")  Y=(" + roomView.getScaledBitmapHeight() + "/(" + droppedView.getY() + "-" + roomView.getScaledBitmapY() + ")");
                     break;
             }
             return true;
@@ -344,9 +343,7 @@ public class RoomConfigFragment extends Fragment implements DropTargetImageView.
         GraphicUnit graphicUnit;
         while (unitIterator.hasNext()) {
             graphicUnit = (GraphicUnit) unitIterator.next();
-            Log.d("UnitPos", "onDragTargetUpdate REL: " + graphicUnit.roomRelativeX + "/" + graphicUnit.roomRelativeY + "   Room: " + roomView.getX() + "/" + roomView.getY());
             graphicUnit.resetView();
-            Log.d("UnitPos", "onDragTargetUpdate REL: " + graphicUnit.roomRelativeX + "/" + graphicUnit.roomRelativeY + "   Room: " + roomView.getX() + "/" + roomView.getY());
             drawUnitInRoom(graphicUnit);
         }
         return true;

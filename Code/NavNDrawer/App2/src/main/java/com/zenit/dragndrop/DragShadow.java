@@ -34,14 +34,14 @@ public class DragShadow extends View.DragShadowBuilder {
         circlePaint.setMaskFilter(new BlurMaskFilter(shadowDiameter/4, BlurMaskFilter.Blur.INNER));
 
         canvas.drawCircle(shadowDiameter/2, shadowDiameter/2, shadowDiameter/2, circlePaint);
-
     }
+
     @Override
     public void onProvideShadowMetrics(Point shadowSize, Point touchPoint) {
-        Log.i("touchPoint before", touchPoint.x + "/" + touchPoint.y);
+        Log.d("Unit", "DragShadow touchPoint before = " + touchPoint.x + "/" + touchPoint.y);
         shadowSize.set(shadowDiameter, shadowDiameter);
         touchPoint.set(/*shadowDiameter/6 - getView().getWidth()*/shadowDiameter/2, /*shadowDiameter/6 - getView().getHeight()*/shadowDiameter/2);
-        Log.i("touchPoint after", touchPoint.x + "/" + touchPoint.y);
+        Log.d("Unit", "DragShadow touchPoint after = " + touchPoint.x + "/" + touchPoint.y);
     }
 }
 
