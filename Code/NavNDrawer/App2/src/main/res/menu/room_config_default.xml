@@ -8,5 +8,5 @@
     <item android:id="@+id/action_selection"
         android:icon="@drawable/ic_action_item_selection"
         android:title="@string/action_selection"
-        android:showAsAction="ifRoom|withText"/>
+        android:showAsAction="ifRoom"/>
 </menu>

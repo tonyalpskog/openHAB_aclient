@@ -34,7 +34,7 @@ import java.util.UUID;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class RoomConfigFragment extends Fragment implements DropTargetImageView.OnDragTargetUpdate {
+public class RoomConfigFragment extends Fragment implements UnitContainerImageView.OnContainerBackgroundDrawn {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -43,7 +43,7 @@ public class RoomConfigFragment extends Fragment implements DropTargetImageView.
 
     private HashMap<UUID, GraphicUnit> unitHash;
     private View fragmentView;
-    private DropTargetImageView roomView;
+    private UnitContainerImageView roomView;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -84,10 +84,10 @@ public class RoomConfigFragment extends Fragment implements DropTargetImageView.
 
         fragmentView = inflater.inflate(R.layout.fragment_room_config, container, false);
         TextView textView = (TextView) fragmentView.findViewById(R.id.room_config_section_label);
-        roomView = (DropTargetImageView) fragmentView.findViewById(R.id.dropImage);
+        roomView = (UnitContainerImageView) fragmentView.findViewById(R.id.dropImage);
 
         roomView.setOnDragListener(dropListener);
-        roomView.setOnDragTargetUpdate(this);
+        roomView.setOnContainerBackgroundDrawnListener(this);
 
         textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
 
@@ -140,9 +140,11 @@ public class RoomConfigFragment extends Fragment implements DropTargetImageView.
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
+        //TODO - Create dynamic menu
         // Inflate the menu; this adds items to the action bar if it is present.
-        inflater.inflate(R.menu.room_config_actions, menu);
+        inflater.inflate(R.menu.room_config_default, menu);
+
+        //menu.findItem(R.id.action_remove).setVisible()
     }
 
     @Override
@@ -209,6 +211,7 @@ public class RoomConfigFragment extends Fragment implements DropTargetImageView.
     }
 
     private void unitSelectionDialog(Context context) {
+        //TODO - Create dialog choices dynamically.
         final CharSequence[] items = {"Select all", "Deselect all", "Select all of current type(s)"};
 
         AlertDialog selectUnitDialog;
@@ -338,7 +341,7 @@ public class RoomConfigFragment extends Fragment implements DropTargetImageView.
     }
 
     @Override
-    public boolean onDragTargetUpdate(View v) {
+    public boolean onContainerBackgroundDrawn(View v) {
         Iterator unitIterator = unitHash.values().iterator();
         GraphicUnit graphicUnit;
         while (unitIterator.hasNext()) {

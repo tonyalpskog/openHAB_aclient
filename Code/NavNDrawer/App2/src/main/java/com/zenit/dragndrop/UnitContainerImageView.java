@@ -12,25 +12,25 @@ import android.widget.ImageView;
 /**
  * Created by Tony Alpskog in 2013.
  */
-public class DropTargetImageView extends ImageView {
+public class UnitContainerImageView extends ImageView {
 
-    OnDragTargetUpdate mOnDragTargetUpdate;
-    private final String TAG = "DropTargetImageView";
+    OnContainerBackgroundDrawn mOnContainerBackgroundDrawn;
+    private final String TAG = "UnitContainerImageView";
 
     int scaledBitmapHeight = 0;
     int scaledBitmapWidth = 0;
     int scaledBitmapX = 0;
     int scaledBitmapY = 0;
 
-    public DropTargetImageView(Context context) {
+    public UnitContainerImageView(Context context) {
         super(context);
     }
 
-    public DropTargetImageView(Context context, AttributeSet attrs) {
+    public UnitContainerImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public DropTargetImageView(Context context, AttributeSet attrs, int defStyle) {
+    public UnitContainerImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -47,7 +47,7 @@ public class DropTargetImageView extends ImageView {
 
         if(oldX != scaledBitmapX || oldY != scaledBitmapY || oldHeight != scaledBitmapHeight || oldWidth != scaledBitmapWidth) {
             Log.e("Room", "width=" + getScaledBitmapWidth() + " height="+getScaledBitmapHeight() + " x=" + getScaledBitmapX() + " y=" + getScaledBitmapY());
-            postOnDragTargetUpdate();
+            postOnContainerBackgroundDrawn();
         }
     }
 
@@ -89,19 +89,19 @@ public class DropTargetImageView extends ImageView {
         return scaledBitmapY;
     }
 
-    public interface OnDragTargetUpdate {
-        boolean onDragTargetUpdate(View v);
+    public interface OnContainerBackgroundDrawn {
+        boolean onContainerBackgroundDrawn(View v);
     }
 
-    public void setOnDragTargetUpdate(OnDragTargetUpdate eventListener) {
-        mOnDragTargetUpdate = eventListener;
+    public void setOnContainerBackgroundDrawnListener(OnContainerBackgroundDrawn eventListener) {
+        mOnContainerBackgroundDrawn = eventListener;
     }
 
-    private boolean postOnDragTargetUpdate() {
-        if(mOnDragTargetUpdate != null) {
-            mOnDragTargetUpdate.onDragTargetUpdate(this);
+    private boolean postOnContainerBackgroundDrawn() {
+        if(mOnContainerBackgroundDrawn != null) {
+            mOnContainerBackgroundDrawn.onContainerBackgroundDrawn(this);
             return true;
-        } else Log.w(TAG, "Cannot post event. OnDragTargetUpdate is NULL");
+        } else Log.w(TAG, "Cannot post event. OnContainerBackgroundDrawn is NULL");
         return false;
     }
 }
