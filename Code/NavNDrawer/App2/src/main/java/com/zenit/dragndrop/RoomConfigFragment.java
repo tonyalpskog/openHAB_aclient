@@ -20,28 +20,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zenit.navndrawer.HABApplication;
 import com.zenit.navndrawer.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.UUID;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class RoomConfigFragment extends Fragment implements UnitContainerImageView.OnContainerBackgroundDrawn {
+public class RoomConfigFragment extends Fragment {
     /**
      * The fragment argument representing the section number for this
      * fragment.
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    private HashMap<UUID, GraphicUnit> unitHash;
     private View fragmentView;
     private UnitContainerImageView roomView;
 
@@ -77,17 +73,13 @@ public class RoomConfigFragment extends Fragment implements UnitContainerImageVi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d("LifeCycle", "RoomConfigFragment.onCreateView(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
-        unitHash = ((HABApplication) getActivity().getApplication()).getUnitHash(getArguments().getInt(ARG_SECTION_NUMBER) - 1);
-
-        if(unitHash == null)
-            unitHash = new HashMap<UUID, GraphicUnit>();
 
         fragmentView = inflater.inflate(R.layout.fragment_room_config, container, false);
         TextView textView = (TextView) fragmentView.findViewById(R.id.room_config_section_label);
         roomView = (UnitContainerImageView) fragmentView.findViewById(R.id.dropImage);
 
+        roomView.setRoom(((HABApplication) getActivity().getApplication()).getConfigRoom());
         roomView.setOnDragListener(dropListener);
-        roomView.setOnContainerBackgroundDrawnListener(this);
 
         textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
 
@@ -178,19 +170,19 @@ public class RoomConfigFragment extends Fragment implements UnitContainerImageVi
                 switch(item)
                 {
                     case 0:
-                        addNewUnitToRoom(new GraphicUnit(UnitType.SWITCH), 150, 150);
+                        roomView.addNewUnitToRoom(new GraphicUnit(UnitType.SWITCH), 150, 150);
                         break;
                     case 1:
-                        addNewUnitToRoom(new GraphicUnit(UnitType.DIMMER), 150, 150);
+                        roomView.addNewUnitToRoom(new GraphicUnit(UnitType.DIMMER), 150, 150);
                         break;
                     case 2:
-                        addNewUnitToRoom(new GraphicUnit(UnitType.ROOM_HEATER), 150, 150);
+                        roomView.addNewUnitToRoom(new GraphicUnit(UnitType.ROOM_HEATER), 150, 150);
                         break;
                     case 3:
-                        addNewUnitToRoom(new GraphicUnit(UnitType.VENT), 150, 150);
+                        roomView.addNewUnitToRoom(new GraphicUnit(UnitType.VENT), 150, 150);
                         break;
                     case 4:
-                        addNewUnitToRoom(new GraphicUnit(UnitType.SOCKET), 150, 150);
+                        roomView.addNewUnitToRoom(new GraphicUnit(UnitType.SOCKET), 150, 150);
                         break;
 
                 }
@@ -232,17 +224,17 @@ public class RoomConfigFragment extends Fragment implements UnitContainerImageVi
                     case 2:
                         ArrayList<UnitType> selectedTypes = new ArrayList<UnitType>();
 
-                        Iterator iterator = unitHash.values().iterator();
+                        Iterator iterator = roomView.getRoom().getUnitIterator();
                         while(iterator.hasNext()) {
                             GraphicUnit gu = (GraphicUnit) iterator.next();
-                            if(gu.isSelected() && !selectedTypes.contains(gu.type))
-                                selectedTypes.add(gu.type);
+                            if(gu.isSelected() && !selectedTypes.contains(gu.getType()))
+                                selectedTypes.add(gu.getType());
                         }
 
-                        iterator = unitHash.values().iterator();
+                        iterator = roomView.getRoom().getUnitIterator();
                         while(iterator.hasNext()) {
                             GraphicUnit gu = (GraphicUnit) iterator.next();
-                            if(!gu.isSelected() && selectedTypes.contains(gu.type))
+                            if(!gu.isSelected() && selectedTypes.contains(gu.getType()))
                                 gu.setSelected(true);
                         }
                         break;
@@ -252,34 +244,6 @@ public class RoomConfigFragment extends Fragment implements UnitContainerImageVi
         });
         selectUnitDialog = builder.create();
         selectUnitDialog.show();
-    }
-
-    private void addNewUnitToRoom(GraphicUnit gUnit, int x, int y) {
-        unitHash.put(gUnit.id, gUnit);
-        drawUnitInRoom(gUnit, x, y);
-    }
-
-    private void drawUnitInRoom(GraphicUnit gUnit) {
-//        int x = roomView.getX() != 0? Math.round(roomView.getScaledBitmapX() + (roomView.getScaledBitmapWidth() / gUnit.roomRelativeX)): Math.round(lastRoomX + (lastRoomWidth / gUnit.roomRelativeX));
-//        int y = roomView.getY() != 0? Math.round(roomView.getScaledBitmapY() + (roomView.getScaledBitmapHeight() / gUnit.roomRelativeY)): Math.round(lastRoomY + (lastRoomHeight / gUnit.roomRelativeY));
-        int x = Math.round(roomView.getScaledBitmapX() + (roomView.getScaledBitmapWidth() / gUnit.roomRelativeX));
-        int y = Math.round(roomView.getScaledBitmapY() + (roomView.getScaledBitmapHeight() / gUnit.roomRelativeY));
-        drawUnitInRoom(gUnit, x, y);
-    }
-
-    private void drawUnitInRoom(GraphicUnit gUnit, int x, int y) {
-        RelativeLayout layout = (RelativeLayout) fragmentView.findViewById(R.id.layout_room_setup);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT
-        );
-
-        params.setMargins(x, y, 0, 0);
-        Log.d("UnitPos", params.leftMargin + "/" + params.topMargin);
-        Log.d("Unit", "drawUnitInRoom() view group x/y = " + layout.getX() + "/" + layout.getY() + "    room x/y = " + roomView.getScaledBitmapX() + "/" + roomView.getScaledBitmapY());
-        View gView = gUnit.getView(fragmentView.getContext());
-        layout.addView(gView, params);
-        Log.d("Unit", "drawUnitInRoom() type=" + gUnit.type.name() + "   in x/y = " + x + "/" + y + "   out x/y = " + gView.getX() + "/" + gView.getY());
     }
 
     View.OnDragListener dropListener = new View.OnDragListener() {
@@ -298,7 +262,7 @@ public class RoomConfigFragment extends Fragment implements UnitContainerImageVi
                     Log.i("DragEvent", "Ended");
                     break;
                 case DragEvent.ACTION_DRAG_STARTED:
-                    ImageView draggedView = (ImageView) event.getLocalState();
+                    GraphicUnitWidget draggedView = (GraphicUnitWidget) event.getLocalState();
                     Log.i("DragEvent", "Started at LAMP = " + draggedView.getX() + "/" + draggedView.getY() + "   EVENT = " + event.getX() + "/" + event.getY());
                     dragXDiff = event.getX() - draggedView.getX();
                     dragYDiff = event.getY() - draggedView.getY();
@@ -306,7 +270,7 @@ public class RoomConfigFragment extends Fragment implements UnitContainerImageVi
                     draggedView.setVisibility(View.INVISIBLE);
                     break;
                 case DragEvent.ACTION_DROP:
-                    ImageView droppedView = (ImageView) event.getLocalState();
+                    GraphicUnitWidget droppedView = (GraphicUnitWidget) event.getLocalState();
                     Log.i("DragEvent", "Dropped at LAMP = " + Math.round(event.getX() + dragXDiff) + "/" + Math.round(event.getY() + dragYDiff) + "   EVENT = " + event.getX() + "/" + event.getY());
                     Log.i("DragEvent", "Drop target at TOP = " + v.getTop() + "   LEFT = " + v.getLeft());
 //                    droppedView.setX(Math.round(event.getX() + dragXDiff + v.getLeft() - 70));
@@ -315,12 +279,11 @@ public class RoomConfigFragment extends Fragment implements UnitContainerImageVi
                     droppedView.setY(Math.round(event.getY())+20);
                     droppedView.setVisibility(View.VISIBLE);
 
-                    GraphicUnit gUnit = unitHash.get(droppedView.getTag());
-                    gUnit.roomRelativeX = roomView.getScaledBitmapWidth() / (droppedView.getX() - roomView.getScaledBitmapX());
-                    gUnit.roomRelativeY = roomView.getScaledBitmapHeight() / (droppedView.getY() - roomView.getScaledBitmapY());
+                    droppedView.gUnit.setRoomRelativeX(roomView.getScaledBitmapWidth() / (droppedView.getX() - roomView.getScaledBitmapX()));
+                    droppedView.gUnit.setRoomRelativeY(roomView.getScaledBitmapHeight() / (droppedView.getY() - roomView.getScaledBitmapY()));
 
                     Log.d("Unit", "Dropped view pos X/Y = " + droppedView.getX() + "/" + droppedView.getY());
-                    Log.d("UnitPos", "dropped REL: " + gUnit.roomRelativeX + "/" + gUnit.roomRelativeY + "   Calc: X=(" + roomView.getScaledBitmapWidth() + "/(" + droppedView.getX() + "-" + roomView.getScaledBitmapX() + ")  Y=(" + roomView.getScaledBitmapHeight() + "/(" + droppedView.getY() + "-" + roomView.getScaledBitmapY() + ")");
+                    Log.d("UnitPos", "dropped REL: " + droppedView.gUnit.getRoomRelativeX() + "/" + droppedView.gUnit.getRoomRelativeY() + "   Calc: X=(" + roomView.getScaledBitmapWidth() + "/(" + droppedView.getX() + "-" + roomView.getScaledBitmapX() + ")  Y=(" + roomView.getScaledBitmapHeight() + "/(" + droppedView.getY() + "-" + roomView.getScaledBitmapY() + ")");
                     break;
             }
             return true;
@@ -328,7 +291,7 @@ public class RoomConfigFragment extends Fragment implements UnitContainerImageVi
     };
 
     private void multiUnitSelection(boolean doSelect) {
-        Iterator iterator = unitHash.values().iterator();
+        Iterator iterator = roomView.getRoom().getUnitIterator();
         while(iterator.hasNext()) {
             GraphicUnit gu = (GraphicUnit) iterator.next();
             setSelected(gu, doSelect);
@@ -338,18 +301,6 @@ public class RoomConfigFragment extends Fragment implements UnitContainerImageVi
     private void setSelected(GraphicUnit gu, boolean selected) {
         if(gu != null && gu.isSelected() != selected)
             gu.setSelected(selected);
-    }
-
-    @Override
-    public boolean onContainerBackgroundDrawn(View v) {
-        Iterator unitIterator = unitHash.values().iterator();
-        GraphicUnit graphicUnit;
-        while (unitIterator.hasNext()) {
-            graphicUnit = (GraphicUnit) unitIterator.next();
-            graphicUnit.resetView();
-            drawUnitInRoom(graphicUnit);
-        }
-        return true;
     }
 }
 

@@ -31,7 +31,7 @@ public class GraphicUnitWidget extends ImageView implements View.OnClickListener
         gUnit = graphicUnit;
 
         int imageResource = R.drawable.ic_lightbulb;
-        switch (gUnit.type) {
+        switch (gUnit.getType()) {
             case SWITCH:
                 imageResource = R.drawable.ic_lightbulb;
                 break;

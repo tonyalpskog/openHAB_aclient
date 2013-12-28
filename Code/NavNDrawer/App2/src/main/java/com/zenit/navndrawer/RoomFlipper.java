@@ -1,14 +1,14 @@
 package com.zenit.navndrawer;
 
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.widget.ImageView;
 import android.widget.ViewFlipper;
+
+import com.zenit.dragndrop.UnitContainerImageView;
 
 /**
  * Created by Tony Alpskog in 2013.
@@ -20,7 +20,7 @@ public class RoomFlipper extends ViewFlipper implements GestureListener.OnGestur
     OnRoomShiftListener mOnRoomShiftListener;
     GestureListener mGestureListener;
     RoomFlipperAdapter mRoomFlipperAdapter;
-    ImageView[] flipperImages;
+    UnitContainerImageView[] flipperImages;
 
     public RoomFlipper(Context context) {
         super(context);
@@ -185,11 +185,11 @@ public class RoomFlipper extends ViewFlipper implements GestureListener.OnGestur
         mOnRoomShiftListener = eventListener;
     }
 
-    public void setRoomFlipperAdapter(RoomFlipperAdapter flipperAdapter) {
+    public void setRoomFlipperAdapter(RoomFlipperAdapter flipperAdapter, HABApplication application) {
         mRoomFlipperAdapter = flipperAdapter;
-        flipperImages = new ImageView[2];
-        flipperImages[0] = (ImageView) findViewById(R.id.flipper_image_1);
-        flipperImages[1] = (ImageView) findViewById(R.id.flipper_image_2);
-        flipperImages[getDisplayedChild()].setImageBitmap(mRoomFlipperAdapter.getCurrentBitmap());
+        flipperImages = new UnitContainerImageView[2];
+        flipperImages[0] = (UnitContainerImageView) findViewById(R.id.flipper_image_1);
+        flipperImages[1] = (UnitContainerImageView) findViewById(R.id.flipper_image_2);
+        flipperImages[getDisplayedChild()].setRoom(application.getFlipperRoom());
     }
 }

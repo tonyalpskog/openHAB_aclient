@@ -17,7 +17,7 @@ public class RoomFlipperAdapter {
 
     public RoomFlipperAdapter(Context context) {
         mContext = context;
-        roomProvider = new RoomProvider(mContext);
+        roomProvider = new RoomProvider();
         currentRoom = roomProvider.getInitialRoom();
     }
 

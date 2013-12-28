@@ -12,7 +12,7 @@ public class RoomProvider {
     HashMap<UUID, Room> roomHash;
     UUID initialRoomId;
 
-    public RoomProvider(Context context) {
+    public RoomProvider() {
         roomHash = new HashMap<UUID, Room>();
         createRooms();
     }
@@ -27,7 +27,7 @@ public class RoomProvider {
     }
 
     public Room getInitialRoom() {
-        return get(initialRoomId);
+        return roomHash.get(initialRoomId);
     }
 
     private void createRooms() {

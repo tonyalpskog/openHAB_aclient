@@ -9,10 +9,11 @@ import java.util.UUID;
  * Created by Tony Alpskog in 2013.
  */
 public class GraphicUnit {
-    UUID id;
-    UnitType type;
-    float roomRelativeX = 0;
-    float roomRelativeY = 0;
+
+    private UUID id;
+    private UnitType type;
+    private float roomRelativeX = 0;
+    private float roomRelativeY = 0;
     private GraphicUnitWidget view;
     private boolean isSelected;
 
@@ -60,4 +61,33 @@ public class GraphicUnit {
             view.setSelected(isSelected);
             view.drawSelection(isSelected);
         }
-    }}
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public UnitType getType() {
+        return type;
+    }
+
+    public void setType(UnitType type) {
+        this.type = type;
+    }
+
+    public float getRoomRelativeX() {
+        return roomRelativeX;
+    }
+
+    public void setRoomRelativeX(float roomRelativeX) {
+        this.roomRelativeX = roomRelativeX;
+    }
+
+    public float getRoomRelativeY() {
+        return roomRelativeY;
+    }
+
+    public void setRoomRelativeY(float roomRelativeY) {
+        this.roomRelativeY = roomRelativeY;
+    }
+}

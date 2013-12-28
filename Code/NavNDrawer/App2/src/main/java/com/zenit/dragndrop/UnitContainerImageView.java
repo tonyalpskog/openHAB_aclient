@@ -7,7 +7,16 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
+import com.zenit.navndrawer.HABApplication;
+import com.zenit.navndrawer.R;
+import com.zenit.navndrawer.Room;
+
+import java.util.Iterator;
 
 /**
  * Created by Tony Alpskog in 2013.
@@ -17,10 +26,12 @@ public class UnitContainerImageView extends ImageView {
     OnContainerBackgroundDrawn mOnContainerBackgroundDrawn;
     private final String TAG = "UnitContainerImageView";
 
-    int scaledBitmapHeight = 0;
-    int scaledBitmapWidth = 0;
-    int scaledBitmapX = 0;
-    int scaledBitmapY = 0;
+    private int scaledBitmapHeight = 0;
+    private int scaledBitmapWidth = 0;
+    private int scaledBitmapX = 0;
+    private int scaledBitmapY = 0;
+
+    private Room room;
 
     public UnitContainerImageView(Context context) {
         super(context);
@@ -48,6 +59,8 @@ public class UnitContainerImageView extends ImageView {
         if(oldX != scaledBitmapX || oldY != scaledBitmapY || oldHeight != scaledBitmapHeight || oldWidth != scaledBitmapWidth) {
             Log.e("Room", "width=" + getScaledBitmapWidth() + " height="+getScaledBitmapHeight() + " x=" + getScaledBitmapX() + " y=" + getScaledBitmapY());
             postOnContainerBackgroundDrawn();
+
+            redrawAllUnits();
         }
     }
 
@@ -101,7 +114,52 @@ public class UnitContainerImageView extends ImageView {
         if(mOnContainerBackgroundDrawn != null) {
             mOnContainerBackgroundDrawn.onContainerBackgroundDrawn(this);
             return true;
-        } else Log.w(TAG, "Cannot post event. OnContainerBackgroundDrawn is NULL");
+        }
         return false;
+    }
+
+    private void redrawAllUnits() {
+        Iterator unitIterator = room.getUnitIterator();
+        GraphicUnit graphicUnit;
+        while (unitIterator.hasNext()) {
+            graphicUnit = (GraphicUnit) unitIterator.next();
+            graphicUnit.resetView();
+            drawUnitInRoom(graphicUnit);
+        }
+    }
+
+    private void drawUnitInRoom(GraphicUnit gUnit) {
+        int x = Math.round(getScaledBitmapX() + (getScaledBitmapWidth() / gUnit.getRoomRelativeX()));
+        int y = Math.round(getScaledBitmapY() + (getScaledBitmapHeight() / gUnit.getRoomRelativeY()));
+        drawUnitInRoom(gUnit, x, y);
+    }
+
+    public void addNewUnitToRoom(GraphicUnit gUnit, int x, int y) {
+        room.addUnit(gUnit);
+        drawUnitInRoom(gUnit, x, y);
+    }
+
+    private void drawUnitInRoom(GraphicUnit gUnit, int x, int y) {
+        ViewGroup layout = (ViewGroup) getParent();///*fragmentView.*/findViewById(R.id.room_layout);
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+//                RelativeLayout.LayoutParams.WRAP_CONTENT,
+//                RelativeLayout.LayoutParams.WRAP_CONTENT
+//        );
+//        FrameLayout layout = (FrameLayout) /*fragmentView.*/findViewById(R.id.room_layout);
+
+//        Log.d("UnitPos", params.leftMargin + "/" + params.topMargin);
+        Log.d("Unit", "drawUnitInRoom() view group x/y = " + layout.getX() + "/" + layout.getY() + "    room x/y = " + getScaledBitmapX() + "/" + getScaledBitmapY());
+        View gView = gUnit.getView(/*fragmentView.*/getContext());
+        layout.addView(gView, x, y);
+//        layout.addView(gView, params);
+        Log.d("Unit", "drawUnitInRoom() type=" + gUnit.getType().name() + "   in x/y = " + x + "/" + y + "   out x/y = " + gView.getX() + "/" + gView.getY());
+    }
+
+    public void setRoom(Room nextRoom) {
+        room = nextRoom;
+    }
+
+    public Room getRoom() {
+        return room;
     }
 }

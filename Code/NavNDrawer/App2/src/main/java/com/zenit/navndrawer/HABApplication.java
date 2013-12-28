@@ -13,18 +13,30 @@ import java.util.UUID;
  * Created by Tony Alpskog in 2013.
  */
 public class HABApplication extends Application {
-    private List<HashMap<UUID, GraphicUnit>> roomUnitList = new ArrayList<HashMap<UUID, GraphicUnit>>(3);
+    private HashMap<UUID, HashMap<UUID, GraphicUnit>> roomUnitList = new HashMap<UUID, HashMap<UUID, GraphicUnit>>();
+    RoomProvider roomProvider = null;
+    UUID currentConfigRoom = null;
+    UUID currentFlipperRoom = null;
 
-    public HashMap<UUID, GraphicUnit> getUnitHash(int room) {
-        if(roomUnitList.size() == 0)
-            initRoomList();
-
-        return roomUnitList.get(room);
+    public Room getConfigRoom() {
+        Room room = getRoom(currentConfigRoom);
+        currentConfigRoom = room.getId();
+        return room;
     }
 
-    private void initRoomList() {
-        roomUnitList.add(0, new HashMap<UUID, GraphicUnit>());
-        roomUnitList.add(1, new HashMap<UUID, GraphicUnit>());
-        roomUnitList.add(2, new HashMap<UUID, GraphicUnit>());
+    public Room getFlipperRoom() {
+        Room room = getRoom(currentFlipperRoom);
+        currentFlipperRoom = room.getId();
+        return room;
+    }
+
+    private Room getRoom(UUID roomId) {
+        if(roomProvider == null)
+            roomProvider = new RoomProvider();
+
+        if(roomId == null)
+            return roomProvider.getInitialRoom();
+        else
+            return roomProvider.get(roomId);
     }
 }

@@ -51,7 +51,7 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
         roomViewFlipper.setDisplayedChild(0);//Show middle image as initial image
         roomViewFlipper.setGestureListener(new GestureListener(rootView));
         roomViewFlipper.setOnRoomShiftListener(this);
-        roomViewFlipper.setRoomFlipperAdapter(new RoomFlipperAdapter(rootView.getContext()));
+        roomViewFlipper.setRoomFlipperAdapter(new RoomFlipperAdapter(rootView.getContext()), (HABApplication) getActivity().getApplication());
 
         return rootView;
     }

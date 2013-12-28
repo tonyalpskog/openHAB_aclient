@@ -22,6 +22,9 @@ public class MainActivity extends Activity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
+    private RoomConfigFragment configFragment = null;
+    private RoomFlipperFragment flipperFragment = null;
+
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
