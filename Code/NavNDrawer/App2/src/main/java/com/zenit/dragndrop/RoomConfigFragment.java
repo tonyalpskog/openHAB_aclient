@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.zenit.navndrawer.HABApplication;
+import com.zenit.navndrawer.MainActivity;
 import com.zenit.navndrawer.R;
 import com.zenit.navndrawer.Room;
 
@@ -67,6 +68,7 @@ public class RoomConfigFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         Log.d("LifeCycle", "RoomConfigFragment.onAttach(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
     @Override

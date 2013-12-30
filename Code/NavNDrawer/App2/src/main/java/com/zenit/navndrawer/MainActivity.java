@@ -55,12 +55,12 @@ public class MainActivity extends Activity
         switch (position) {
             case 0:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, RoomConfigFragment.newInstance(position + 1, ((HABApplication) getApplication()).getConfigRoom()))
+                        .replace(R.id.container, RoomFlipperFragment.newInstance(position + 1))
                         .commit();
                     break;
             default:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, RoomFlipperFragment.newInstance(position + 1))
+                        .replace(R.id.container, RoomConfigFragment.newInstance(position + 1, ((HABApplication) getApplication()).getConfigRoom()))
                         .commit();
                 break;
 
@@ -112,5 +112,9 @@ public class MainActivity extends Activity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void selectNavigationDrawerItem(int itemIndex) {
+        mNavigationDrawerFragment.selectItem(itemIndex);
     }
 }

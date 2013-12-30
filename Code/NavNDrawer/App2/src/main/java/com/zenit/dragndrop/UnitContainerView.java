@@ -29,6 +29,7 @@ public class UnitContainerView extends FrameLayout implements RoomImageView.OnBa
     private RoomImageView roomImage;
     private Room mRoom;
     private List<View> addedUnitViews;
+    private boolean mBlockUnitRedraw = false;
 
     public UnitContainerView(Context context) {
         this(context, null);
@@ -95,7 +96,7 @@ public class UnitContainerView extends FrameLayout implements RoomImageView.OnBa
 
     private void redrawAllUnits() {
         Log.d(TAG, "redrawAllUnits() - method called");
-        if(mRoom == null)
+        if(mRoom == null || mBlockUnitRedraw)
             return;
 
         removeAllUnitViews();
@@ -144,7 +145,9 @@ public class UnitContainerView extends FrameLayout implements RoomImageView.OnBa
 
     public void setRoom(Room nextRoom) {
         mRoom = nextRoom;
+        mBlockUnitRedraw = true;
         setImageBitmap(mRoom.getRoomImage());
+        mBlockUnitRedraw = false;
         redrawAllUnits();
     }
 
@@ -164,9 +167,7 @@ public class UnitContainerView extends FrameLayout implements RoomImageView.OnBa
             vg.removeAllViewsInLayout();
             removeView(vg);
         }
-
         addedUnitViews.clear();
-
         Log.d("Remove unit views", "Room<" + getRoom().getId() + ">  Child count = " + getChildCount());
     }
 }

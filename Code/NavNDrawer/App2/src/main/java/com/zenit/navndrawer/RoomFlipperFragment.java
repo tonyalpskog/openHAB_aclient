@@ -65,8 +65,7 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(
-                getArguments().getInt(ARG_SECTION_NUMBER));
+        ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
     @Override
@@ -88,7 +87,7 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
                 Room roomToEdit = ((HABApplication) getActivity().getApplication()).getFlipperRoom();
                 Log.d("Edit Room", "onOptionsItemSelected() - Edit room action on room<" + roomToEdit.getId() + ">");
                 ((HABApplication) getActivity().getApplication()).setConfigRoom(roomToEdit);
-                ((MainActivity) getActivity()).onNavigationDrawerItemSelected(0);//TODO - Use enum as fragment identifier.
+                ((MainActivity) getActivity()).selectNavigationDrawerItem(1);//TODO - Use enum as fragment identifier.
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
