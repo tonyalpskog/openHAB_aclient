@@ -3,6 +3,8 @@ package com.zenit.dragndrop;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.zenit.navndrawer.R;
+
 import java.util.UUID;
 
 /**
@@ -33,6 +35,7 @@ public class GraphicUnit {
     public ImageView getView(Context context) {
         if(view == null) {
             view = new GraphicUnitWidget(context, this);
+
 //            view.setTop(relativeTop);
 //            view.setLeft(relativeLeft);
 //            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(

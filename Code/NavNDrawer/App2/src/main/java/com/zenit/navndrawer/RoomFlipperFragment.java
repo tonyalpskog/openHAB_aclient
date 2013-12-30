@@ -7,7 +7,11 @@ package com.zenit.navndrawer;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -51,7 +55,9 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
         roomViewFlipper.setDisplayedChild(0);//Show middle image as initial image
         roomViewFlipper.setGestureListener(new GestureListener(rootView));
         roomViewFlipper.setOnRoomShiftListener(this);
-        roomViewFlipper.setRoomFlipperAdapter(new RoomFlipperAdapter(rootView.getContext()), (HABApplication) getActivity().getApplication());
+        roomViewFlipper.setRoomFlipperAdapter(new RoomFlipperAdapter(rootView.getContext(), ((HABApplication) getActivity().getApplication()).getFlipperRoom()), (HABApplication) getActivity().getApplication());
+
+        setHasOptionsMenu(true);
 
         return rootView;
     }
@@ -64,8 +70,36 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
     }
 
     @Override
-    public boolean onRoomShift(Gesture gesture) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //TODO - Create dynamic menu
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.room_flipper_default, menu);
+
+        //menu.findItem(R.id.action_remove).setVisible()
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_edit_room_from_flipper:
+                Room roomToEdit = ((HABApplication) getActivity().getApplication()).getFlipperRoom();
+                Log.d("Edit Room", "onOptionsItemSelected() - Edit room action on room<" + roomToEdit.getId() + ">");
+                ((HABApplication) getActivity().getApplication()).setConfigRoom(roomToEdit);
+                ((MainActivity) getActivity()).onNavigationDrawerItemSelected(0);//TODO - Use enum as fragment identifier.
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onRoomShift(Gesture gesture, Room room) {
+        Log.d("Flip Room", "onRoomShift() - Shifted to room<" + room.getId() + ">");
         textView.setText("Last direction: " + gesture.name());
+        ((HABApplication) getActivity().getApplication()).setFlipperRoom(room);
         return false;
     }
 }

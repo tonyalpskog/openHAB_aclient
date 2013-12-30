@@ -1,5 +1,6 @@
 package com.zenit.navndrawer;
 
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,18 +16,20 @@ public class RoomFlipperAdapter {
     private Room currentRoom;
     private RoomProvider roomProvider;
 
-    public RoomFlipperAdapter(Context context) {
+    public RoomFlipperAdapter(Context context, Room initialRoom) {
         mContext = context;
-        roomProvider = new RoomProvider();
-        currentRoom = roomProvider.getInitialRoom();
+        currentRoom = initialRoom;
     }
 
     public Bitmap getCurrentBitmap() {
-        return BitmapFactory.decodeResource(mContext.getResources(), currentRoom.getDrawableResourceId());
+        return currentRoom.getRoomImage();
     }
 
-    public Bitmap getBitmap(Gesture gesture) {
-        Bitmap nextBitmap = null;
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
+
+    public Room getRoom(Gesture gesture) {
         Room nextRoom = null;
 
         switch(gesture) {
@@ -67,9 +70,8 @@ public class RoomFlipperAdapter {
 
         if(nextRoom != null) {
             currentRoom = nextRoom;
-            nextBitmap = BitmapFactory.decodeResource(mContext.getResources(), currentRoom.getDrawableResourceId());
         }
 
-        return nextBitmap;
+        return nextRoom;
     }
 }

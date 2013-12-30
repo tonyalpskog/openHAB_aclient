@@ -5,7 +5,7 @@
         android:icon="@android:drawable/ic_menu_delete"
         android:title="@string/action_remove_room"
         android:showAsAction="ifRoom"/>
-    <item android:id="@+id/action_edit"
+    <item android:id="@+id/action_edit_room_from_flipper"
         android:icon="@android:drawable/ic_menu_edit"
         android:title="@string/action_edit_room"
         android:showAsAction="ifRoom"/>

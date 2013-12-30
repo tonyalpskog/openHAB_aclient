@@ -1,6 +1,8 @@
 package com.zenit.navndrawer;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -11,8 +13,10 @@ import java.util.UUID;
 public class RoomProvider {
     HashMap<UUID, Room> roomHash;
     UUID initialRoomId;
+    private Context mContext = null;
 
-    public RoomProvider() {
+    public RoomProvider(Context context) {
+        mContext = context;
         roomHash = new HashMap<UUID, Room>();
         createRooms();
     }
@@ -30,62 +34,66 @@ public class RoomProvider {
         return roomHash.get(initialRoomId);
     }
 
+    private Bitmap getBitmap(int bitmapResourceId) {
+        return BitmapFactory.decodeResource(mContext.getResources(), bitmapResourceId);
+    }
+
     private void createRooms() {
-        Room room0Center = new Room(R.drawable.room_0_c);
+        Room room0Center = new Room(getBitmap(R.drawable.room_0_c));
         add(room0Center);
-        Room room0East = new Room(R.drawable.room_0_e);
+        Room room0East = new Room(getBitmap(R.drawable.room_0_e));
         add(room0East);
-        Room room0North = new Room(R.drawable.room_0_n);
+        Room room0North = new Room(getBitmap(R.drawable.room_0_n));
         add(room0North);
-        Room room0NorthEast = new Room(R.drawable.room_0_ne);
+        Room room0NorthEast = new Room(getBitmap(R.drawable.room_0_ne));
         add(room0NorthEast);
-        Room room0NorthWest = new Room(R.drawable.room_0_nw);
+        Room room0NorthWest = new Room(getBitmap(R.drawable.room_0_nw));
         add(room0NorthWest);
-        Room room0South = new Room(R.drawable.room_0_s);
+        Room room0South = new Room(getBitmap(R.drawable.room_0_s));
         add(room0South);
-        Room room0SouthEast = new Room(R.drawable.room_0_se);
+        Room room0SouthEast = new Room(getBitmap(R.drawable.room_0_se));
         add(room0SouthEast);
-        Room room0SouthWest = new Room(R.drawable.room_0_sw);
+        Room room0SouthWest = new Room(getBitmap(R.drawable.room_0_sw));
         add(room0SouthWest);
-        Room room0West = new Room(R.drawable.room_0_w);
+        Room room0West = new Room(getBitmap(R.drawable.room_0_w));
         add(room0West);
 
-        Room room1Center = new Room(R.drawable.room_1_c);
+        Room room1Center = new Room(getBitmap(R.drawable.room_1_c));
         add(room1Center);
-        Room room1East = new Room(R.drawable.room_1_e);
+        Room room1East = new Room(getBitmap(R.drawable.room_1_e));
         add(room1East);
-        Room room1North = new Room(R.drawable.room_1_n);
+        Room room1North = new Room(getBitmap(R.drawable.room_1_n));
         add(room1North);
-        Room room1NorthEast = new Room(R.drawable.room_1_ne);
+        Room room1NorthEast = new Room(getBitmap(R.drawable.room_1_ne));
         add(room1NorthEast);
-        Room room1NorthWest = new Room(R.drawable.room_1_nw);
+        Room room1NorthWest = new Room(getBitmap(R.drawable.room_1_nw));
         add(room1NorthWest);
-        Room room1South = new Room(R.drawable.room_1_s);
+        Room room1South = new Room(getBitmap(R.drawable.room_1_s));
         add(room1South);
-        Room room1SouthEast = new Room(R.drawable.room_1_se);
+        Room room1SouthEast = new Room(getBitmap(R.drawable.room_1_se));
         add(room1SouthEast);
-        Room room1SouthWest = new Room(R.drawable.room_1_sw);
+        Room room1SouthWest = new Room(getBitmap(R.drawable.room_1_sw));
         add(room1SouthWest);
-        Room room1West = new Room(R.drawable.room_1_w);
+        Room room1West = new Room(getBitmap(R.drawable.room_1_w));
         add(room1West);
 
-        Room room2Center = new Room(R.drawable.room_2_c);
+        Room room2Center = new Room(getBitmap(R.drawable.room_2_c));
         add(room2Center);
-        Room room2East = new Room(R.drawable.room_2_e);
+        Room room2East = new Room(getBitmap(R.drawable.room_2_e));
         add(room2East);
-        Room room2North = new Room(R.drawable.room_2_n);
+        Room room2North = new Room(getBitmap(R.drawable.room_2_n));
         add(room2North);
-        Room room2NorthEast = new Room(R.drawable.room_2_ne);
+        Room room2NorthEast = new Room(getBitmap(R.drawable.room_2_ne));
         add(room2NorthEast);
-        Room room2NorthWest = new Room(R.drawable.room_2_nw);
+        Room room2NorthWest = new Room(getBitmap(R.drawable.room_2_nw));
         add(room2NorthWest);
-        Room room2South = new Room(R.drawable.room_2_s);
+        Room room2South = new Room(getBitmap(R.drawable.room_2_s));
         add(room2South);
-        Room room2SouthEast = new Room(R.drawable.room_2_se);
+        Room room2SouthEast = new Room(getBitmap(R.drawable.room_2_se));
         add(room2SouthEast);
-        Room room2SouthWest = new Room(R.drawable.room_2_sw);
+        Room room2SouthWest = new Room(getBitmap(R.drawable.room_2_sw));
         add(room2SouthWest);
-        Room room2West = new Room(R.drawable.room_2_w);
+        Room room2West = new Room(getBitmap(R.drawable.room_2_w));
         add(room2West);
 
         initialRoomId = room0Center.getId();

@@ -24,15 +24,23 @@ public class HABApplication extends Application {
         return room;
     }
 
+    public void setConfigRoom(Room room) {
+        currentConfigRoom = room.getId();
+    }
+
     public Room getFlipperRoom() {
         Room room = getRoom(currentFlipperRoom);
         currentFlipperRoom = room.getId();
         return room;
     }
 
+    public void setFlipperRoom(Room room) {
+        currentFlipperRoom = room.getId();
+    }
+
     private Room getRoom(UUID roomId) {
         if(roomProvider == null)
-            roomProvider = new RoomProvider();
+            roomProvider = new RoomProvider(getApplicationContext());
 
         if(roomId == null)
             return roomProvider.getInitialRoom();

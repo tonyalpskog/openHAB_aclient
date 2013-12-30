@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,7 +55,7 @@ public class MainActivity extends Activity
         switch (position) {
             case 0:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, RoomConfigFragment.newInstance(position + 1))
+                        .replace(R.id.container, RoomConfigFragment.newInstance(position + 1, ((HABApplication) getApplication()).getConfigRoom()))
                         .commit();
                     break;
             default:

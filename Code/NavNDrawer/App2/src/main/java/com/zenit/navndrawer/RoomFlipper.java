@@ -1,6 +1,5 @@
 package com.zenit.navndrawer;
 
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
@@ -8,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ViewFlipper;
 
-import com.zenit.dragndrop.UnitContainerImageView;
+import com.zenit.dragndrop.UnitContainerView;
 
 /**
  * Created by Tony Alpskog in 2013.
@@ -20,7 +19,7 @@ public class RoomFlipper extends ViewFlipper implements GestureListener.OnGestur
     OnRoomShiftListener mOnRoomShiftListener;
     GestureListener mGestureListener;
     RoomFlipperAdapter mRoomFlipperAdapter;
-    UnitContainerImageView[] flipperImages;
+    UnitContainerView[] flipperImages;
 
     public RoomFlipper(Context context) {
         super(context);
@@ -42,10 +41,10 @@ public class RoomFlipper extends ViewFlipper implements GestureListener.OnGestur
         boolean doBounce = true;
         boolean gestureFound = true;
 
-        Bitmap nextBitmap = mRoomFlipperAdapter.getBitmap(gesture);
-        if(nextBitmap != null) {
+        Room nextRoom = mRoomFlipperAdapter.getRoom(gesture);
+        if(nextRoom != null) {
             doBounce = false;
-            nextChildIndex = setNextImage(nextBitmap);
+            nextChildIndex = setNextRoom(nextRoom);
         }
 
         switch(gesture) {
@@ -125,9 +124,9 @@ public class RoomFlipper extends ViewFlipper implements GestureListener.OnGestur
         }
 
         if(gestureFound) {
-            setDisplayedChild(nextChildIndex);
+            setDisplayedChild(nextChildIndex);//Change room (with animations)
             if(!doBounce)
-                postOnRoomShift(gesture);
+                postOnRoomShift(gesture, nextRoom);
         }
 
         return true;
@@ -135,13 +134,12 @@ public class RoomFlipper extends ViewFlipper implements GestureListener.OnGestur
 
     /**
      *
-     * @param bitmap The bitmap that will represent the next image
+     * @param room The room that will represent the next image
      * @return the child index number for the next image.
      */
-    public int setNextImage(Bitmap bitmap) {
+    private int setNextRoom(Room room) {
         int childIndex = getNextChildIndex();
-
-        flipperImages[childIndex].setImageBitmap(bitmap);
+        flipperImages[childIndex].setRoom(room);
         return childIndex;
     }
 
@@ -150,12 +148,7 @@ public class RoomFlipper extends ViewFlipper implements GestureListener.OnGestur
      * @return the child index number for the next image.
      */
     public int getNextChildIndex() {
-        int childIndex = 0;
-
-        if(getDisplayedChild() == 0)
-            childIndex = 1;
-
-        return childIndex;
+        return (getDisplayedChild() == 0? 1 : 0);
     }
 
     /**
@@ -170,14 +163,15 @@ public class RoomFlipper extends ViewFlipper implements GestureListener.OnGestur
          * @param oldView The previous view after switch.
          * @return True if the listener has consumed the event, false otherwise.
          */
-        boolean onRoomShift(Gesture gesture);
+        boolean onRoomShift(Gesture gesture, Room room);
     }
 
-    private boolean postOnRoomShift(Gesture gesture) {
+    private boolean postOnRoomShift(Gesture gesture, Room room) {
         if(mOnRoomShiftListener != null) {
-            mOnRoomShiftListener.onRoomShift(gesture);
+            mOnRoomShiftListener.onRoomShift(gesture, mRoomFlipperAdapter.getCurrentRoom());
             return true;
         } else Log.w(TAG, "Cannot post event. OnRoomShiftListener is NULL");
+
         return false;
     }
 
@@ -187,9 +181,9 @@ public class RoomFlipper extends ViewFlipper implements GestureListener.OnGestur
 
     public void setRoomFlipperAdapter(RoomFlipperAdapter flipperAdapter, HABApplication application) {
         mRoomFlipperAdapter = flipperAdapter;
-        flipperImages = new UnitContainerImageView[2];
-        flipperImages[0] = (UnitContainerImageView) findViewById(R.id.flipper_image_1);
-        flipperImages[1] = (UnitContainerImageView) findViewById(R.id.flipper_image_2);
+        flipperImages = new UnitContainerView[2];
+        flipperImages[0] = (UnitContainerView) findViewById(R.id.flipper_image_1);
+        flipperImages[1] = (UnitContainerView) findViewById(R.id.flipper_image_2);
         flipperImages[getDisplayedChild()].setRoom(application.getFlipperRoom());
     }
 }

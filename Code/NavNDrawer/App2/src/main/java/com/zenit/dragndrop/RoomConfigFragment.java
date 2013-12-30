@@ -19,11 +19,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zenit.navndrawer.HABApplication;
 import com.zenit.navndrawer.R;
+import com.zenit.navndrawer.Room;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,22 +39,22 @@ public class RoomConfigFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private View fragmentView;
-    private UnitContainerImageView roomView;
+    private UnitContainerView roomView;
 
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static RoomConfigFragment newInstance(int sectionNumber) {
-        RoomConfigFragment fragment = new RoomConfigFragment();
+    public static RoomConfigFragment newInstance(int sectionNumber, Room room) {
+        RoomConfigFragment fragment = new RoomConfigFragment(room);
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public RoomConfigFragment() {
-        Log.d("LifeCycle", "RoomConfigFragment(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ") <constructor>");
+    public RoomConfigFragment(Room room) {
+        Log.d("LifeCycle", "RoomConfigFragment(" + (getArguments() != null ? getArguments().getInt(ARG_SECTION_NUMBER) : "?") + ") <constructor>");
     }
 
     @Override
@@ -66,19 +66,20 @@ public class RoomConfigFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        Log.d("LifeCycle", "RoomConfigFragment.onInflate(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        Log.d("LifeCycle", "RoomConfigFragment.onAttach(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("LifeCycle", "RoomConfigFragment.onCreateView(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        Log.d("LifeCycle", "RoomConfigFragment.onCreateView() room<" + ((HABApplication) getActivity().getApplication()).getConfigRoom().getId() + ">");
 
         fragmentView = inflater.inflate(R.layout.fragment_room_config, container, false);
         TextView textView = (TextView) fragmentView.findViewById(R.id.room_config_section_label);
-        roomView = (UnitContainerImageView) fragmentView.findViewById(R.id.dropImage);
+        roomView = (UnitContainerView) fragmentView.findViewById(R.id.room_layout);
 
         roomView.setRoom(((HABApplication) getActivity().getApplication()).getConfigRoom());
+        //TODO - Make DragListener internal in UnitContainerView and control the usage of it by layout parameters (DragNDrop on/off)
         roomView.setOnDragListener(dropListener);
 
         textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));

@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.zenit.navndrawer.R;
@@ -94,34 +95,4 @@ public class GraphicUnitWidget extends ImageView implements View.OnClickListener
             setImageBitmap(originalBitmap);
         }
     }
-
-    //    @Override
-//    public boolean onDrag(View v, DragEvent event) {
-//        int dragEvent = event.getAction();
-//
-//        switch (dragEvent) {
-//            case DragEvent.ACTION_DRAG_ENTERED:
-//                Log.i("DragEvent", "Entered");
-//                break;
-//            case DragEvent.ACTION_DRAG_ENDED:
-//                Log.i("DragEvent", "Ended");
-//                break;
-//            case DragEvent.ACTION_DRAG_STARTED:
-//                ImageView draggedView = (ImageView) event.getLocalState();
-//                Log.i("DragEvent", "Started at LAMP = " + draggedView.getX() + "/" + draggedView.getY() + "   EVENT = " + event.getX() + "/" + event.getY());
-//                dragXDiff = event.getX() - draggedView.getX();
-//                dragYDiff = event.getY() - draggedView.getY();
-//                //stop displaying the view where it was before it was dragged
-//                draggedView.setVisibility(View.INVISIBLE);
-//                break;
-//            case DragEvent.ACTION_DROP:
-//                ImageView droppedView = (ImageView) event.getLocalState();
-//                Log.i("DragEvent", "Dropped at LAMP = " + Math.round(event.getX() + dragXDiff) + "/" + Math.round(event.getY() + dragYDiff) + "   EVENT = " + event.getX() + "/" + event.getY());
-//                Log.i("DragEvent", "Drop target at TOP = " + v.getTop() + "   LEFT = " + v.getLeft());
-//                droppedView.setX(Math.round(event.getX() + dragXDiff + v.getLeft() - 70));
-//                droppedView.setY(Math.round(event.getY() + dragYDiff/* + v.getTop()*/ - 50));
-//                break;
-//        }
-//        return true;
-//    }
 }

@@ -108,7 +108,7 @@ public class GestureListener implements View.OnTouchListener {
                     ongoingPinch = false;
                     float finalDist = isPinchOut? pinchEndDist - pinchBeginDist: pinchBeginDist - pinchEndDist;
                     if(finalDist >= MIN_PINCH_DISTANCE) {
-                        Log.d(TAG, "We got a pinch " + (isPinchOut? "OUT": "IN") + "(" + finalDist +")");
+                        //Log.d(TAG, "We got a pinch " + (isPinchOut? "OUT": "IN") + "(" + finalDist +")");
 
                         if(isPinchOut) {
                             fireGestureEvent(Gesture.PINCH_OUT);
@@ -118,7 +118,7 @@ public class GestureListener implements View.OnTouchListener {
                     }
                     pinchBeginDist = pinchEndDist = 0;
                 } else {
-                    Log.d(TAG, "Inside touchViewFlipper MotionEvent.ACTION_UP code");
+                    //Log.d(TAG, "Inside touchViewFlipper MotionEvent.ACTION_UP code");
 
                     float finalX = event.getX();
                     float finalY = event.getY();

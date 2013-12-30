@@ -1,5 +1,7 @@
 package com.zenit.navndrawer;
 
+import android.graphics.Bitmap;
+
 import com.zenit.dragndrop.GraphicUnit;
 
 import java.util.HashMap;
@@ -10,13 +12,13 @@ import java.util.UUID;
  * Created by Tony Alpskog in 2013.
  */
 public class Room {
-    private int drawableResourceId;
     private HashMap<Direction, Room> roomAlignment;
     private UUID id;
     private HashMap<UUID, GraphicUnit> unitHash = null;
+    private Bitmap mBackgroundImage = null;
 
-    public Room(int drawableId) {
-        drawableResourceId = drawableId;
+    public Room(Bitmap roomImage) {
+        mBackgroundImage = roomImage;
         id = UUID.randomUUID();
         roomAlignment = new HashMap<Direction, Room>(6);
         unitHash = new HashMap<UUID, GraphicUnit>();
@@ -34,8 +36,8 @@ public class Room {
         return id;
     }
 
-    public int getDrawableResourceId() {
-        return drawableResourceId;
+    public Bitmap getRoomImage() {
+        return mBackgroundImage;
     }
 
     public void addUnit(GraphicUnit gUnit) {
