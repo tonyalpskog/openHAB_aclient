@@ -50,14 +50,14 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_room_flipper, container, false);
         mRoomLabel = (TextView) rootView.findViewById(R.id.room_flipper_section_label);
-        mRoomLabel.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-
         mRoomViewFlipper = (RoomFlipper) rootView.findViewById(R.id.flipper);
 
         mRoomViewFlipper.setDisplayedChild(0);//Show middle image as initial image
         mRoomViewFlipper.setGestureListener(new GestureListener(rootView));
         mRoomViewFlipper.setOnRoomShiftListener(this);
         mRoomViewFlipper.setRoomFlipperAdapter(new RoomFlipperAdapter(rootView.getContext(), ((HABApplication) getActivity().getApplication()).getFlipperRoom()), (HABApplication) getActivity().getApplication());
+
+        mRoomLabel.setText(((HABApplication) getActivity().getApplication()).getFlipperRoom().getName());
 
         setHasOptionsMenu(true);
 
@@ -91,6 +91,12 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
                 ((HABApplication) getActivity().getApplication()).setConfigRoom(roomToEdit);
                 ((MainActivity) getActivity()).selectNavigationDrawerItem(2);//TODO - Use enum as fragment identifier.
                 return true;
+            case R.id.action_add_room_from_flipper:
+                Room roomToEdit = ((HABApplication) getActivity().getApplication()).getFlipperRoom();
+                Log.d("Edit Room", "onOptionsItemSelected() - Edit room action on room<" + roomToEdit.getId() + ">");
+                ((HABApplication) getActivity().getApplication()).setConfigRoom(roomToEdit);
+                ((MainActivity) getActivity()).selectNavigationDrawerItem(2);//TODO - Use enum as fragment identifier.
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -99,7 +105,7 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
     @Override
     public boolean onRoomShift(Gesture gesture, Room room) {
         Log.d("Flip Room", "onRoomShift() - Shifted to room<" + room.getId() + ">");
-        mRoomLabel.setText("Last direction: " + gesture.name());
+        mRoomLabel.setText(room.getName());
         ((HABApplication) getActivity().getApplication()).setFlipperRoom(room);
         return false;
     }
