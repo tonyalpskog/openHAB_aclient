@@ -15,7 +15,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/edittext_room_name"
         android:layout_columnSpan="2"
         android:layout_gravity="fill_horizontal"
         android:textSize="12dp"
@@ -165,7 +165,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Button"
-        android:id="@+id/button"
+        android:id="@+id/room_edit_save_button"
         android:layout_row="8"
         android:layout_column="2"
         android:layout_gravity="fill_horizontal"
