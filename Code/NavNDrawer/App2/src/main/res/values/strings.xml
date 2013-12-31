@@ -3,8 +3,8 @@
 
     <string name="app_name">HABClient</string>
     <string name="title_section1">Room Flipper</string>
-    <string name="title_section2">Room Config</string>
-    <string name="title_section3">2:nd RF</string>
+    <string name="title_section2">Unit Placement</string>
+    <string name="title_section3">Room Config</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">GlobalAction</string>

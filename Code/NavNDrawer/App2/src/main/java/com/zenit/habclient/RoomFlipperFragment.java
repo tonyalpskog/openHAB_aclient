@@ -1,4 +1,4 @@
-package com.zenit.navndrawer;
+package com.zenit.habclient;
 
 /**
  * Created by Tony Alpskog in 2013.
@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.zenit.navndrawer.R;
 
 /**
  * A placeholder fragment containing a simple view.

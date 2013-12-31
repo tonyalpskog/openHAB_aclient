@@ -1,4 +1,4 @@
-package com.zenit.dragndrop;
+package com.zenit.habclient;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.zenit.navndrawer.R;
-import com.zenit.navndrawer.Room;
 
 import java.util.ArrayList;
 import java.util.Iterator;

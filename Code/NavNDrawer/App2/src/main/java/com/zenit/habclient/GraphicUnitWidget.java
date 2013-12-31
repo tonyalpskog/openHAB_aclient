@@ -1,4 +1,4 @@
-package com.zenit.dragndrop;
+package com.zenit.habclient;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.zenit.navndrawer.R;

@@ -1,8 +1,6 @@
-package com.zenit.navndrawer;
+package com.zenit.habclient;
 
 import android.graphics.Bitmap;
-
-import com.zenit.dragndrop.GraphicUnit;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,11 +11,14 @@ import java.util.UUID;
  */
 public class Room {
     private HashMap<Direction, Room> roomAlignment;
+
+    private String mName;
     private UUID id;
     private HashMap<UUID, GraphicUnit> unitHash = null;
     private Bitmap mBackgroundImage = null;
 
-    public Room(Bitmap roomImage) {
+    public Room(String name, Bitmap roomImage) {
+        mName = name;
         mBackgroundImage = roomImage;
         id = UUID.randomUUID();
         roomAlignment = new HashMap<Direction, Room>(6);
@@ -50,5 +51,17 @@ public class Room {
 
     public GraphicUnit getUnit(UUID unitId) {
         return unitHash.get(unitId);
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        this.mName = name;
+    }
+
+    public String toString() {
+        return mName;
     }
 }

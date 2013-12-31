@@ -1,9 +1,7 @@
-package com.zenit.dragndrop;
+package com.zenit.habclient;
 
 import android.content.Context;
 import android.widget.ImageView;
-
-import com.zenit.navndrawer.R;
 
 import java.util.UUID;
 

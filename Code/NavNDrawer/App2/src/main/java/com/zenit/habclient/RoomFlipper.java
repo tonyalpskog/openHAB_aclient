@@ -1,13 +1,12 @@
-package com.zenit.navndrawer;
+package com.zenit.habclient;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.ViewFlipper;
 
-import com.zenit.dragndrop.UnitContainerView;
+import com.zenit.navndrawer.R;
 
 /**
  * Created by Tony Alpskog in 2013.

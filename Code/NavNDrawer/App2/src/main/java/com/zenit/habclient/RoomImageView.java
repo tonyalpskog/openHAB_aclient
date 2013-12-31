@@ -1,4 +1,4 @@
-package com.zenit.dragndrop;
+package com.zenit.habclient;
 
 import android.content.Context;
 import android.graphics.Canvas;

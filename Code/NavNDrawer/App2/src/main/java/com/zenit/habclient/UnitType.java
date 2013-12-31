@@ -1,4 +1,4 @@
-package com.zenit.dragndrop;
+package com.zenit.habclient;
 
 /**
  * Created by Tony Alpskog in 2013.

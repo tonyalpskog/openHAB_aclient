@@ -13,9 +13,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        android:name="HABApplication" >
+        android:name="com.zenit.habclient.HABApplication" >
         <activity
-            android:name="com.zenit.navndrawer.MainActivity"
+            android:name="com.zenit.habclient.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

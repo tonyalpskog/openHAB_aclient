@@ -1,20 +1,15 @@
-package com.zenit.navndrawer;
+package com.zenit.habclient;
 
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.BroadcastReceiver;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.TextView;
-import com.zenit.dragndrop.RoomConfigFragment;
+
+import com.zenit.navndrawer.R;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -24,7 +19,7 @@ public class MainActivity extends Activity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    private RoomConfigFragment configFragment = null;
+    private UnitPlacementFragment configFragment = null;
     private RoomFlipperFragment flipperFragment = null;
 
     /**
@@ -35,7 +30,7 @@ public class MainActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_drawer);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -58,9 +53,14 @@ public class MainActivity extends Activity
                         .replace(R.id.container, RoomFlipperFragment.newInstance(position + 1))
                         .commit();
                     break;
+            case 1:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, UnitPlacementFragment.newInstance(position + 1, ((HABApplication) getApplication()).getConfigRoom()))
+                        .commit();
+                break;
             default:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, RoomConfigFragment.newInstance(position + 1, ((HABApplication) getApplication()).getConfigRoom()))
+                        .replace(R.id.container, RoomConfigFragment.newInstance(((HABApplication) getApplication()).roomProvider, ((HABApplication) getApplication()).getConfigRoom()))
                         .commit();
                 break;
 

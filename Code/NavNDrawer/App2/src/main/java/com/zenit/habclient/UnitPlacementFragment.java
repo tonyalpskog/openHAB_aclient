@@ -1,4 +1,4 @@
-package com.zenit.dragndrop;
+package com.zenit.habclient;
 
 /**
  * Created by Tony Alpskog in 2013.
@@ -21,10 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.zenit.navndrawer.HABApplication;
-import com.zenit.navndrawer.MainActivity;
 import com.zenit.navndrawer.R;
-import com.zenit.navndrawer.Room;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,7 +29,7 @@ import java.util.Iterator;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class RoomConfigFragment extends Fragment {
+public class UnitPlacementFragment extends Fragment {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -46,37 +43,37 @@ public class RoomConfigFragment extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static RoomConfigFragment newInstance(int sectionNumber, Room room) {
-        RoomConfigFragment fragment = new RoomConfigFragment(room);
+    public static UnitPlacementFragment newInstance(int sectionNumber, Room room) {
+        UnitPlacementFragment fragment = new UnitPlacementFragment(room);
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public RoomConfigFragment(Room room) {
-        Log.d("LifeCycle", "RoomConfigFragment(" + (getArguments() != null ? getArguments().getInt(ARG_SECTION_NUMBER) : "?") + ") <constructor>");
+    public UnitPlacementFragment(Room room) {
+        Log.d("LifeCycle", "UnitPlacementFragment(" + (getArguments() != null ? getArguments().getInt(ARG_SECTION_NUMBER) : "?") + ") <constructor>");
     }
 
     @Override
     public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
         super.onInflate(activity, attrs, savedInstanceState);
-        Log.d("LifeCycle", "RoomConfigFragment.onInflate(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        Log.d("LifeCycle", "UnitPlacementFragment.onInflate(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        Log.d("LifeCycle", "RoomConfigFragment.onAttach(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        Log.d("LifeCycle", "UnitPlacementFragment.onAttach(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
         ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("LifeCycle", "RoomConfigFragment.onCreateView() room<" + ((HABApplication) getActivity().getApplication()).getConfigRoom().getId() + ">");
+        Log.d("LifeCycle", "UnitPlacementFragment.onCreateView() room<" + ((HABApplication) getActivity().getApplication()).getConfigRoom().getId() + ">");
 
-        fragmentView = inflater.inflate(R.layout.fragment_room_config, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_unit_placement, container, false);
         TextView textView = (TextView) fragmentView.findViewById(R.id.room_config_section_label);
         roomView = (UnitContainerView) fragmentView.findViewById(R.id.room_layout);
 
@@ -94,43 +91,43 @@ public class RoomConfigFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("LifeCycle", "RoomConfigFragment.onStart(" + (getArguments() != null ? getArguments().getInt(ARG_SECTION_NUMBER) : "?") + ")");
+        Log.d("LifeCycle", "UnitPlacementFragment.onStart(" + (getArguments() != null ? getArguments().getInt(ARG_SECTION_NUMBER) : "?") + ")");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("LifeCycle", "RoomConfigFragment.onResume(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        Log.d("LifeCycle", "UnitPlacementFragment.onResume(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("LifeCycle", "RoomConfigFragment.onPause(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        Log.d("LifeCycle", "UnitPlacementFragment.onPause(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d("LifeCycle", "RoomConfigFragment.onStop(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        Log.d("LifeCycle", "UnitPlacementFragment.onStop(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d("LifeCycle", "RoomConfigFragment.onDestroyView(" + (getArguments() != null ? getArguments().getInt(ARG_SECTION_NUMBER) : "?") + ")");
+        Log.d("LifeCycle", "UnitPlacementFragment.onDestroyView(" + (getArguments() != null ? getArguments().getInt(ARG_SECTION_NUMBER) : "?") + ")");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("LifeCycle", "RoomConfigFragment.onDestroy(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        Log.d("LifeCycle", "UnitPlacementFragment.onDestroy(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d("LifeCycle", "RoomConfigFragment.onDetach(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
+        Log.d("LifeCycle", "UnitPlacementFragment.onDetach(" + (getArguments()!=null? getArguments().getInt(ARG_SECTION_NUMBER): "?") + ")");
     }
 
     @Override

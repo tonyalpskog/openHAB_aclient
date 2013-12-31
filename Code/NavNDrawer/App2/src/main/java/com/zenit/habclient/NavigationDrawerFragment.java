@@ -1,4 +1,4 @@
-package com.zenit.navndrawer;
+package com.zenit.habclient;
 
 ;
 import android.app.Activity;
@@ -23,6 +23,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+
+import com.zenit.navndrawer.R;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.

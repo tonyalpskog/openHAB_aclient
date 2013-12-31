@@ -1,12 +1,8 @@
-package com.zenit.navndrawer;
+package com.zenit.habclient;
 
 import android.app.Application;
 
-import com.zenit.dragndrop.GraphicUnit;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 /**
