@@ -43,6 +43,10 @@ public class Room {
         return mBackgroundImage;
     }
 
+    public void setRoomImage(Bitmap bitmap) {
+        mBackgroundImage = bitmap;
+    }
+
     public void addUnit(GraphicUnit gUnit) {
         unitHash.put(gUnit.getId(), gUnit);
     }

@@ -12,8 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.zenit.navndrawer.R;
-
 /**
  * Created by Tony Alpskog in 2013.
  */

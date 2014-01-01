@@ -11,9 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import com.zenit.navndrawer.R;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,6 +20,7 @@ import java.util.List;
 
 public class RoomConfigFragment extends Fragment {
 
+    private final String TAG = "RoomConfigFragment";
     private RoomProvider mRoomProvider;
     private Room mCurrentRoom;
     private boolean isNewRoom = false;
@@ -106,7 +104,6 @@ public class RoomConfigFragment extends Fragment {
             Direction direction = (Direction) iterator.next();
             Spinner spinner = mSpinnerHashMap.get(direction);
             if(mCurrentRoom.getRoomByAlignment(direction) != null) {
-                spinner.setSelected(true);
                 spinner.setSelection(roomSpinnerAdapter.getPosition(mCurrentRoom.getRoomByAlignment(direction)));
             } else { spinner.setSelection(roomSpinnerAdapter.getPosition(NULL_ROOM)); }
         }
@@ -203,16 +200,15 @@ public class RoomConfigFragment extends Fragment {
     };
 
     private void saveRoomConfig() {
+        Log.d(TAG, "saveRoomConfig()");
         Iterator iterator = mSpinnerHashMap.keySet().iterator();
         while(iterator.hasNext()) {
             Direction direction = (Direction) iterator.next();
             Spinner spinner = mSpinnerHashMap.get(direction);
-            if(spinner.isSelected()) {
-                if((Room) spinner.getSelectedItem() == NULL_ROOM)
-                    mCurrentRoom.setAlignment(null, direction);
-                else
-                    mCurrentRoom.setAlignment((Room) spinner.getSelectedItem(), direction);
-            }
+            if((Room) spinner.getSelectedItem() == NULL_ROOM)
+                mCurrentRoom.setAlignment(null, direction);
+            else
+                mCurrentRoom.setAlignment((Room) spinner.getSelectedItem(), direction);
         }
 
         if(mRoomNameText.getText().toString().length() > 0)

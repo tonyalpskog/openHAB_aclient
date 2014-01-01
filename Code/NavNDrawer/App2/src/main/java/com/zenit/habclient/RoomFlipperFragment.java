@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.zenit.navndrawer.R;
-
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -29,6 +27,7 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
     private static final String ARG_SECTION_NUMBER = "section_number";
     private RoomFlipper mRoomViewFlipper;
     private TextView mRoomLabel;
+    private HABApplication mApplication;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -55,9 +54,9 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
         mRoomViewFlipper.setDisplayedChild(0);//Show middle image as initial image
         mRoomViewFlipper.setGestureListener(new GestureListener(rootView));
         mRoomViewFlipper.setOnRoomShiftListener(this);
-        mRoomViewFlipper.setRoomFlipperAdapter(new RoomFlipperAdapter(rootView.getContext(), ((HABApplication) getActivity().getApplication()).getFlipperRoom()), (HABApplication) getActivity().getApplication());
+        mRoomViewFlipper.setRoomFlipperAdapter(new RoomFlipperAdapter(rootView.getContext(), mApplication.getFlipperRoom()), mApplication);
 
-        mRoomLabel.setText(((HABApplication) getActivity().getApplication()).getFlipperRoom().getName());
+        mRoomLabel.setText(mApplication.getFlipperRoom().getName());
 
         setHasOptionsMenu(true);
 
@@ -68,6 +67,7 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+        mApplication = (HABApplication) activity.getApplication();
     }
 
     @Override
@@ -86,15 +86,15 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_edit_room_from_flipper:
-                Room roomToEdit = ((HABApplication) getActivity().getApplication()).getFlipperRoom();
+                Room roomToEdit = mApplication.getFlipperRoom();
                 Log.d("Edit Room", "onOptionsItemSelected() - Edit room action on room<" + roomToEdit.getId() + ">");
-                ((HABApplication) getActivity().getApplication()).setConfigRoom(roomToEdit);
+                mApplication.setConfigRoom(roomToEdit);
                 ((MainActivity) getActivity()).selectNavigationDrawerItem(2);//TODO - Use enum as fragment identifier.
                 return true;
             case R.id.action_add_room_from_flipper:
-                Room roomToEdit = ((HABApplication) getActivity().getApplication()).getFlipperRoom();
-                Log.d("Edit Room", "onOptionsItemSelected() - Edit room action on room<" + roomToEdit.getId() + ">");
-                ((HABApplication) getActivity().getApplication()).setConfigRoom(roomToEdit);
+                Room roomToAdd = mApplication.getRoomProvider().createNewRoom();
+                Log.d("Add Room", "onOptionsItemSelected() - Add room<" + roomToAdd.getId() + ">");
+                mApplication.setConfigRoom(roomToAdd);
                 ((MainActivity) getActivity()).selectNavigationDrawerItem(2);//TODO - Use enum as fragment identifier.
                 return true;
             default:
@@ -106,7 +106,7 @@ public class RoomFlipperFragment extends Fragment implements RoomFlipper.OnRoomS
     public boolean onRoomShift(Gesture gesture, Room room) {
         Log.d("Flip Room", "onRoomShift() - Shifted to room<" + room.getId() + ">");
         mRoomLabel.setText(room.getName());
-        ((HABApplication) getActivity().getApplication()).setFlipperRoom(room);
+        mApplication.setFlipperRoom(room);
         return false;
     }
 }

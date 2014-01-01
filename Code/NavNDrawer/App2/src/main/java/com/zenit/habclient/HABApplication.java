@@ -10,9 +10,9 @@ import java.util.UUID;
  */
 public class HABApplication extends Application {
     private HashMap<UUID, HashMap<UUID, GraphicUnit>> roomUnitList = new HashMap<UUID, HashMap<UUID, GraphicUnit>>();
-    RoomProvider roomProvider = null;
-    UUID currentConfigRoom = null;
-    UUID currentFlipperRoom = null;
+    private RoomProvider mRoomProvider = null;
+    private UUID currentConfigRoom = null;
+    private UUID currentFlipperRoom = null;
 
     public Room getConfigRoom() {
         Room room = getRoom(currentConfigRoom);
@@ -35,12 +35,16 @@ public class HABApplication extends Application {
     }
 
     private Room getRoom(UUID roomId) {
-        if(roomProvider == null)
-            roomProvider = new RoomProvider(getApplicationContext());
+        if(mRoomProvider == null)
+            mRoomProvider = new RoomProvider(getApplicationContext());
 
         if(roomId == null)
-            return roomProvider.getInitialRoom();
+            return mRoomProvider.getInitialRoom();
         else
-            return roomProvider.get(roomId);
+            return mRoomProvider.get(roomId);
+    }
+
+    public RoomProvider getRoomProvider() {
+        return mRoomProvider;
     }
 }

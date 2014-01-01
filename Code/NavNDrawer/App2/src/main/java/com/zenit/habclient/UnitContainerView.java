@@ -11,8 +11,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.zenit.navndrawer.R;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

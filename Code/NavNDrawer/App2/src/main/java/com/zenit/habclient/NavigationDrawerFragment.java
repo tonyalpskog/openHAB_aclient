@@ -1,6 +1,5 @@
 package com.zenit.habclient;
 
-;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -23,8 +22,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
-
-import com.zenit.navndrawer.R;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -93,8 +90,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
+        mDrawerListView = (ListView) inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

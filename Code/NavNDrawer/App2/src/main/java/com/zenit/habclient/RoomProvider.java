@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.zenit.navndrawer.R;
-
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -40,63 +38,47 @@ public class RoomProvider {
         return BitmapFactory.decodeResource(mContext.getResources(), bitmapResourceId);
     }
 
+    public Room createNewRoom() {
+        Room room = new Room("New room", getBitmap(R.drawable.room_extra));
+        add(room);
+        return room;
+    }
+
+    public Room addRoom(Room room) {
+        add(room);
+        return room;
+    }
+
     private void createRooms() {
-        Room room0Center = new Room("Källare mitten", getBitmap(R.drawable.room_0_c));
-        add(room0Center);
-        Room room0East = new Room("Källare öster", getBitmap(R.drawable.room_0_e));
-        add(room0East);
-        Room room0North = new Room("Källare norr", getBitmap(R.drawable.room_0_n));
-        add(room0North);
-        Room room0NorthEast = new Room("Källare nordost", getBitmap(R.drawable.room_0_ne));
-        add(room0NorthEast);
-        Room room0NorthWest = new Room("Källare nordväst", getBitmap(R.drawable.room_0_nw));
-        add(room0NorthWest);
-        Room room0South = new Room("Källare söder", getBitmap(R.drawable.room_0_s));
-        add(room0South);
-        Room room0SouthEast = new Room("Källare sydost", getBitmap(R.drawable.room_0_se));
-        add(room0SouthEast);
-        Room room0SouthWest = new Room("Källare sydväst", getBitmap(R.drawable.room_0_sw));
-        add(room0SouthWest);
-        Room room0West = new Room("Källare väster", getBitmap(R.drawable.room_0_w));
-        add(room0West);
+        Room room0Center = addRoom(new Room("Källare mitten", getBitmap(R.drawable.room_0_c)));
+        Room room0East = addRoom(new Room("Källare öster", getBitmap(R.drawable.room_0_e)));
+        Room room0North = addRoom(new Room("Källare norr", getBitmap(R.drawable.room_0_n)));
+        Room room0NorthEast = addRoom(new Room("Källare nordost", getBitmap(R.drawable.room_0_ne)));
+        Room room0NorthWest = addRoom(new Room("Källare nordväst", getBitmap(R.drawable.room_0_nw)));
+        Room room0South = addRoom(new Room("Källare söder", getBitmap(R.drawable.room_0_s)));
+        Room room0SouthEast = addRoom(new Room("Källare sydost", getBitmap(R.drawable.room_0_se)));
+        Room room0SouthWest = addRoom(new Room("Källare sydväst", getBitmap(R.drawable.room_0_sw)));
+        Room room0West = addRoom(new Room("Källare väster", getBitmap(R.drawable.room_0_w)));
 
-        Room room1Center = new Room("Entréplan mitten", getBitmap(R.drawable.room_1_c));
-        add(room1Center);
-        Room room1East = new Room("Entréplan öster", getBitmap(R.drawable.room_1_e));
-        add(room1East);
-        Room room1North = new Room("Entréplan norr", getBitmap(R.drawable.room_1_n));
-        add(room1North);
-        Room room1NorthEast = new Room("Entréplan nordost", getBitmap(R.drawable.room_1_ne));
-        add(room1NorthEast);
-        Room room1NorthWest = new Room("Entréplan nordväst", getBitmap(R.drawable.room_1_nw));
-        add(room1NorthWest);
-        Room room1South = new Room("Entréplan söder", getBitmap(R.drawable.room_1_s));
-        add(room1South);
-        Room room1SouthEast = new Room("Entréplan sydost", getBitmap(R.drawable.room_1_se));
-        add(room1SouthEast);
-        Room room1SouthWest = new Room("Entréplan sydväst", getBitmap(R.drawable.room_1_sw));
-        add(room1SouthWest);
-        Room room1West = new Room("Entréplan väster", getBitmap(R.drawable.room_1_w));
-        add(room1West);
+        Room room1Center = addRoom(new Room("Entréplan mitten", getBitmap(R.drawable.room_1_c)));
+        Room room1East = addRoom(new Room("Entréplan öster", getBitmap(R.drawable.room_1_e)));
+        Room room1North = addRoom(new Room("Entréplan norr", getBitmap(R.drawable.room_1_n)));
+        Room room1NorthEast = addRoom(new Room("Entréplan nordost", getBitmap(R.drawable.room_1_ne)));
+        Room room1NorthWest = addRoom(new Room("Entréplan nordväst", getBitmap(R.drawable.room_1_nw)));
+        Room room1South = addRoom(new Room("Entréplan söder", getBitmap(R.drawable.room_1_s)));
+        Room room1SouthEast = addRoom(new Room("Entréplan sydost", getBitmap(R.drawable.room_1_se)));
+        Room room1SouthWest = addRoom(new Room("Entréplan sydväst", getBitmap(R.drawable.room_1_sw)));
+        Room room1West = addRoom(new Room("Entréplan väster", getBitmap(R.drawable.room_1_w)));
 
-        Room room2Center = new Room("Övre plan mitten", getBitmap(R.drawable.room_2_c));
-        add(room2Center);
-        Room room2East = new Room("Övre plan öster", getBitmap(R.drawable.room_2_e));
-        add(room2East);
-        Room room2North = new Room("Övre plan norr", getBitmap(R.drawable.room_2_n));
-        add(room2North);
-        Room room2NorthEast = new Room("Övre plan nordost", getBitmap(R.drawable.room_2_ne));
-        add(room2NorthEast);
-        Room room2NorthWest = new Room("Övre plan nordväst", getBitmap(R.drawable.room_2_nw));
-        add(room2NorthWest);
-        Room room2South = new Room("Övre plan söder", getBitmap(R.drawable.room_2_s));
-        add(room2South);
-        Room room2SouthEast = new Room("Övre plan sydost", getBitmap(R.drawable.room_2_se));
-        add(room2SouthEast);
-        Room room2SouthWest = new Room("Övre plan sydväst", getBitmap(R.drawable.room_2_sw));
-        add(room2SouthWest);
-        Room room2West = new Room("Övre plan väster", getBitmap(R.drawable.room_2_w));
-        add(room2West);
+        Room room2Center = addRoom(new Room("Övre plan mitten", getBitmap(R.drawable.room_2_c)));
+        Room room2East = addRoom(new Room("Övre plan öster", getBitmap(R.drawable.room_2_e)));
+        Room room2North = addRoom(new Room("Övre plan norr", getBitmap(R.drawable.room_2_n)));
+        Room room2NorthEast = addRoom(new Room("Övre plan nordost", getBitmap(R.drawable.room_2_ne)));
+        Room room2NorthWest = addRoom(new Room("Övre plan nordväst", getBitmap(R.drawable.room_2_nw)));
+        Room room2South = addRoom(new Room("Övre plan söder", getBitmap(R.drawable.room_2_s)));
+        Room room2SouthEast = addRoom(new Room("Övre plan sydost", getBitmap(R.drawable.room_2_se)));
+        Room room2SouthWest = addRoom(new Room("Övre plan sydväst", getBitmap(R.drawable.room_2_sw)));
+        Room room2West = addRoom(new Room("Övre plan väster", getBitmap(R.drawable.room_2_w)));
 
         initialRoomId = room0Center.getId();
 
@@ -143,7 +125,7 @@ public class RoomProvider {
         room0South.setAlignment(room0Center, Direction.UP);
         room0South.setAlignment(room1South, Direction.ABOVE);
 
-        //Aligning ground level
+        //Aligning ground floor
         room1Center.setAlignment(room1West, Direction.LEFT);
         room1Center.setAlignment(room1East, Direction.RIGHT);
         room1Center.setAlignment(room1North, Direction.UP);
@@ -195,7 +177,7 @@ public class RoomProvider {
         room1NorthEast.setAlignment(room0NorthEast, Direction.BELOW);
         room1NorthEast.setAlignment(room2NorthEast, Direction.ABOVE);
 
-        //Alignment upper level
+        //Alignment upper floor
         room2Center.setAlignment(room2West, Direction.LEFT);
         room2Center.setAlignment(room2East, Direction.RIGHT);
         room2Center.setAlignment(room2North, Direction.UP);

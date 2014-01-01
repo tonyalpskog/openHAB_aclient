@@ -9,8 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
-import com.zenit.navndrawer.R;
-
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -60,7 +58,7 @@ public class MainActivity extends Activity
                 break;
             default:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, RoomConfigFragment.newInstance(((HABApplication) getApplication()).roomProvider, ((HABApplication) getApplication()).getConfigRoom()))
+                        .replace(R.id.container, RoomConfigFragment.newInstance(((HABApplication) getApplication()).getRoomProvider(), ((HABApplication) getApplication()).getConfigRoom()))
                         .commit();
                 break;
 
